@@ -3,6 +3,7 @@ Service de génération PDF unifié pour tous les documents
 """
 from io import BytesIO
 import os
+import logging
 from typing import Dict, Any, Optional
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -15,12 +16,15 @@ from django.conf import settings
 from decimal import Decimal
 
 from .calculation_service import CalculationService
+from .company_info_service import company_info_service
+
+logger = logging.getLogger(__name__)
 
 
 class DocumentPDFService:
     """Service unifié pour générer des PDF de documents"""
     
-    def __init__(self, document, document_type: str, options: Dict[str, Any] = None):
+    def __init__(self, document, document_type: str, options: Dict[str, Any] = None, tenant_id: str = None):
         """
         Initialise le générateur PDF
         
@@ -28,6 +32,7 @@ class DocumentPDFService:
             document: Instance du document (Quote ou Invoice)
             document_type: 'quote' ou 'invoice'
             options: Options de génération (show_costs, include_details, etc.)
+            tenant_id: ID du tenant (récupéré automatiquement si non fourni)
         """
         self.document = document
         self.document_type = document_type
@@ -35,10 +40,13 @@ class DocumentPDFService:
         self.buffer = BytesIO()
         self.width, self.height = A4
         
+        # Récupérer le tenant_id depuis le document si non fourni
+        self.tenant_id = tenant_id or getattr(document, 'tenant_id', None)
+        
         # Configuration des styles
         self._setup_styles()
         
-        # Configuration spécifique par type
+        # Configuration spécifique par type - maintenant dynamique
         self.company_info = self._get_company_info()
     
     def _setup_styles(self):
@@ -103,16 +111,68 @@ class DocumentPDFService:
         )
     
     def _get_company_info(self) -> Dict[str, str]:
-        """Récupère les informations de l'entreprise"""
-        # TODO: Récupérer depuis les paramètres ou configuration
+        """
+        Récupère les informations de l'entreprise depuis le tenant-service
+        
+        Returns:
+            Dict contenant les informations de l'entreprise pour ce tenant
+        """
+        if not self.tenant_id:
+            logger.warning("Aucun tenant_id disponible pour récupérer les informations entreprise")
+            return self._get_fallback_company_info()
+        
+        try:
+            # Utiliser le service dédié avec cache
+            company_info = company_info_service.get_company_info(self.tenant_id)
+            
+            # Adapter le format pour la compatibilité avec l'ancien code
+            return {
+                'name': company_info.get('name', 'Votre Entreprise'),
+                'address': company_info.get('address_line_1', ''),
+                'address2': company_info.get('address_line_2', ''),
+                'city': f"{company_info.get('postal_code', '')} {company_info.get('city', '')}".strip(),
+                'full_address': company_info.get('full_address', ''),
+                'phone': company_info.get('phone', ''),
+                'email': company_info.get('email', ''),
+                'website': company_info.get('website', ''),
+                'siret': company_info.get('siret', ''),
+                'ice': company_info.get('ice', ''),
+                'legal_form': company_info.get('legal_form', ''),
+                'logo_url': company_info.get('logo_url', ''),
+                'logo_base64': company_info.get('logo_base64', ''),
+                'primary_color': company_info.get('primary_color', '#007bff'),
+                'secondary_color': company_info.get('secondary_color', '#6c757d'),
+                'accent_color': company_info.get('accent_color', '#28a745'),
+            }
+            
+        except Exception as e:
+            logger.error(f"Erreur lors de la récupération des informations entreprise: {str(e)}")
+            return self._get_fallback_company_info()
+    
+    def _get_fallback_company_info(self) -> Dict[str, str]:
+        """
+        Informations entreprise par défaut en cas d'erreur
+        
+        Returns:
+            Dict avec des valeurs par défaut
+        """
         return {
-            'name': 'ENTREPRISE BTP',
-            'address': '123 rue de la Construction',
-            'city': '75000 PARIS',
-            'phone': '01 23 45 67 89',
-            'email': 'contact@entreprise-btp.fr',
-            'siret': '123 456 789 00010',
-            'vat_number': 'FR12 345 678 90'
+            'name': 'Votre Entreprise',
+            'address': 'Adresse à configurer',
+            'address2': '',
+            'city': 'Ville 00000',
+            'full_address': 'Adresse à configurer, Ville 00000, France',
+            'phone': 'Téléphone à configurer',
+            'email': 'email@exemple.fr',
+            'website': '',
+            'siret': 'SIRET à configurer',
+            'ice': 'ICE à configurer',
+            'legal_form': '',
+            'logo_url': '',
+            'logo_base64': '',
+            'primary_color': '#007bff',
+            'secondary_color': '#6c757d',
+            'accent_color': '#28a745',
         }
     
     def generate_pdf(self) -> BytesIO:
@@ -227,7 +287,7 @@ class DocumentPDFService:
         # Mentions légales
         canvas_obj.setFont('Helvetica', 8)
         canvas_obj.drawString(1*cm, 1.5*cm, 
-                             f"SIRET: {self.company_info['siret']} - TVA: {self.company_info['vat_number']}")
+                             f"SIRET: {self.company_info['siret']} - ICE: {self.company_info['ice']}")
         
         # Conditions de paiement
         payment_terms = getattr(self.document, 'terms_and_conditions', '') or "Voir conditions générales"
@@ -525,4 +585,65 @@ class DocumentPDFService:
                 'show_margins': False,
             })
         
-        return base_options 
+        return base_options
+
+
+class PDFService:
+    """
+    Wrapper pour la compatibilité avec l'ancien code
+    Utilise DocumentPDFService en interne avec support tenant
+    """
+    
+    def __init__(self, tenant_id: str = None):
+        """
+        Initialise le service PDF avec tenant_id optionnel
+        
+        Args:
+            tenant_id: ID du tenant (peut être fourni ou récupéré depuis la requête)
+        """
+        self.tenant_id = tenant_id
+    
+    def generate_document_pdf(self, instance, include_details=True, **options):
+        """
+        Génère un PDF pour un document (méthode de compatibilité)
+        
+        Args:
+            instance: Instance de document (Quote ou Invoice)
+            include_details: Inclure les détails
+            **options: Options supplémentaires
+            
+        Returns:
+            BytesIO contenant le PDF
+        """
+        # Déterminer le type de document
+        document_type = 'quote' if hasattr(instance, 'validity_period') else 'invoice'
+        
+        # Préparer les options
+        pdf_options = {
+            'include_details': include_details,
+            **options
+        }
+        
+        # Utiliser DocumentPDFService
+        generator = DocumentPDFService(
+            document=instance,
+            document_type=document_type,
+            options=pdf_options,
+            tenant_id=self.tenant_id
+        )
+        
+        return generator.generate_pdf()
+    
+    @classmethod 
+    def from_request(cls, request):
+        """
+        Factory method pour créer une instance depuis une requête Django
+        
+        Args:
+            request: Requête Django avec tenant_id injecté par le middleware
+            
+        Returns:
+            Instance de PDFService avec le bon tenant_id
+        """
+        tenant_id = getattr(request, 'tenant_id', None)
+        return cls(tenant_id=tenant_id) 

@@ -82,7 +82,7 @@ class BaseDocumentMixin:
     def get_client_info(self, obj):
         """Récupérer les informations client simplifiées"""
         return {
-            'id': str(obj.tier_id),
+            'id': None,  # Plus de tier_id avec l'isolation par schéma
             'name': obj.client_name,
             'address': obj.client_address
         }
@@ -171,15 +171,60 @@ class ClientInfoMixin:
     def get_client_details(self, tier_id):
         """
         Récupérer les détails client via l'API CRM
-        TODO: Implémenter l'appel API vers le service CRM
         """
-        # Pour l'instant, retourner des infos de base
-        # Plus tard, faire un appel HTTP vers le service CRM
+        import requests
+        from django.conf import settings
+        
+        # Configuration de l'URL du CRM service
+        crm_service_url = getattr(settings, 'CRM_SERVICE_URL', 'http://localhost:8003')
+        
+        try:
+            # Récupérer le tenant ID depuis la requête
+            tenant_id = getattr(self.request, 'tenant_id', None)
+            if not tenant_id:
+                # Fallback pour les cas où le tenant n'est pas dans la requête
+                tenant_id = getattr(self.context.get('request'), 'tenant_id', None)
+            
+            headers = {
+                'Content-Type': 'application/json',
+                'X-Tenant-ID': str(tenant_id) if tenant_id else ''
+            }
+            
+            # Appel API vers le CRM service
+            response = requests.get(
+                f"{crm_service_url}/api/tiers/{tier_id}/",
+                headers=headers,
+                timeout=5
+            )
+            
+            if response.status_code == 200:
+                tier_data = response.json()
+                return {
+                    'id': str(tier_id),
+                    'type': tier_data.get('type', 'unknown'),
+                    'contacts': tier_data.get('contacts', []),
+                    'addresses': tier_data.get('addresses', []),
+                    'name': tier_data.get('name', 'Client inconnu')
+                }
+            else:
+                # Log l'erreur et retourner des infos de base
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Erreur API CRM (status {response.status_code}): {response.text}")
+                
+        except Exception as e:
+            # Log l'erreur et continuer avec des infos de base
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Erreur lors de l'appel API CRM: {str(e)}")
+        
+        # Fallback: retourner des infos de base
         return {
             'id': str(tier_id),
-            'type': 'unknown',  # À récupérer via API
-            'contacts': [],     # À récupérer via API
-            'addresses': []     # À récupérer via API
+            'type': 'unknown',
+            'contacts': [],
+            'addresses': [],
+            'name': 'Client inconnu'
         }
 
 
@@ -189,23 +234,51 @@ class RelatedDocumentMixin:
     def get_quote_info(self, obj):
         """Récupérer les informations du devis lié (pour factures)"""
         if hasattr(obj, 'quote_id') and obj.quote_id:
-            # TODO: Appel API vers le service documents pour récupérer le devis
-            return {
-                'id': str(obj.quote_id),
-                'number': obj.quote_number or 'Inconnu',
-                'amount': None  # À récupérer via API
-            }
+            # Appel interne au service documents pour récupérer le devis
+            try:
+                from ..models import Quote
+                quote = Quote.objects.get(id=obj.quote_id)
+                return {
+                    'id': str(obj.quote_id),
+                    'number': quote.number,
+                    'amount': float(quote.total_ttc),
+                    'status': quote.status,
+                    'client_name': quote.client_name
+                }
+            except Quote.DoesNotExist:
+                # Fallback si le devis n'existe pas
+                return {
+                    'id': str(obj.quote_id),
+                    'number': obj.quote_number or 'Inconnu',
+                    'amount': None,
+                    'status': 'unknown',
+                    'client_name': 'Client inconnu'
+                }
         return None
     
     def get_invoice_info(self, obj):
         """Récupérer les informations de la facture liée (pour avoirs)"""
         if hasattr(obj, 'original_invoice_id') and obj.original_invoice_id:
-            # TODO: Appel API interne pour récupérer la facture
-            return {
-                'id': str(obj.original_invoice_id),
-                'number': 'À récupérer',  # À récupérer via API
-                'amount': None  # À récupérer via API
-            }
+            # Appel interne au service documents pour récupérer la facture
+            try:
+                from ..models import Invoice
+                invoice = Invoice.objects.get(id=obj.original_invoice_id)
+                return {
+                    'id': str(obj.original_invoice_id),
+                    'number': invoice.number,
+                    'amount': float(invoice.total_ttc),
+                    'status': invoice.status,
+                    'client_name': invoice.client_name
+                }
+            except Invoice.DoesNotExist:
+                # Fallback si la facture n'existe pas
+                return {
+                    'id': str(obj.original_invoice_id),
+                    'number': 'Facture introuvable',
+                    'amount': None,
+                    'status': 'unknown',
+                    'client_name': 'Client inconnu'
+                }
         return None
 
 

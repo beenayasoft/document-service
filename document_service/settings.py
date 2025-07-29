@@ -22,6 +22,11 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,document-service').split(',')
 
+# Configuration des services SOA
+CRM_SERVICE_URL = config('CRM_SERVICE_URL', default='http://localhost:8003')
+AUTH_SERVICE_URL = config('AUTH_SERVICE_URL', default='http://localhost:8001')
+TENANT_SERVICE_URL = config('TENANT_SERVICE_URL', default='http://localhost:8002')
+
 
 # Application definition
 
@@ -37,13 +42,11 @@ SHARED_APPS = [
     
     # REST API
     "rest_framework",
-    "rest_framework_simplejwt",  # JWT Authentication
     "corsheaders",
     "django_filters",
     "drf_spectacular",
     
-    # Cache
-    "django_redis",
+    # Cache Django simple (pas Redis)
     
     # Apps partagées (contient les modèles Client et Domain)
     'tenant_schema',  # Modèles tenant partagés
@@ -54,7 +57,11 @@ TENANT_APPS = [
     'documents',  # Modèles métier des documents (isolés par schéma)
 ]
 
-INSTALLED_APPS = SHARED_APPS + TENANT_APPS
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
+# Configuration django-tenants (MANQUAIT!)
+TENANT_MODEL = "tenant_schema.Client"
+TENANT_DOMAIN_MODEL = "tenant_schema.Domain"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'documents.camel_case_middleware.CamelCaseToSnakeCaseMiddleware',  # CONVERSION CAMELCASE -> SNAKE_CASE
     'django.middleware.csrf.CsrfViewMiddleware',
-    'tenant_schema.middleware_hybrid.HeaderTenantMiddleware',  # Middleware hybride pour headers (remplace le middleware manuel)
+    'documents.middleware_django_tenants.HeaderTenantMiddleware',  # DJANGO-TENANTS: Middleware correct avec connection.set_tenant()
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -153,11 +160,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # REST Framework configuration
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -177,7 +181,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 # API Configuration
-API_PORT = config('API_PORT', default=8003, cast=int)
+API_PORT = config('API_PORT', default=8004, cast=int)
 API_HOST = config('API_HOST', default='0.0.0.0')
 
 # CORS settings
@@ -196,10 +200,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # Cache Redis
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'document-service-cache',
         'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'MAX_ENTRIES': 1000,  # Nombre maximum d'entrées en cache
+            'CULL_FREQUENCY': 3,  # Fraction à supprimer quand MAX_ENTRIES est atteint
         }
     }
 }
@@ -233,14 +238,14 @@ LOGGING = {
             'formatter': 'verbose',
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': config('LOG_LEVEL', default='INFO'),
+    },
     'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-        },
         'documents': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'level': config('LOG_LEVEL', default='INFO'),
             'propagate': False,
         },
     },
@@ -248,55 +253,27 @@ LOGGING = {
 
 # Configuration spécifique au service de documents
 DOCUMENT_SERVICE = {
-    'QUOTE_NUMBER_PREFIX': 'DEV',
-    'INVOICE_NUMBER_PREFIX': 'FAC',
+    # Configuration générales (non tenant-specific)
     'DEFAULT_VALIDITY_PERIOD': 30,  # jours
-    'DEFAULT_PAYMENT_TERMS': 30,    # jours
-    'DEFAULT_VAT_RATE': '20',
     'PDF_STORAGE_PATH': BASE_DIR / 'media' / 'pdfs',
     'MAX_ITEMS_PER_DOCUMENT': 1000,
     'CACHE_TIMEOUT': 300,  # 5 minutes
 }
 
+# Configuration tenant-service pour récupérer les configurations tenant
+TENANT_SERVICE_URL = os.getenv('TENANT_SERVICE_URL', 'http://localhost:8001')
+TENANT_SERVICE_TIMEOUT = int(os.getenv('TENANT_SERVICE_TIMEOUT', '10'))  # Augmenté à 10s
+TENANT_CONFIG_CACHE_TIMEOUT = int(os.getenv('TENANT_CONFIG_CACHE_TIMEOUT', '900'))  # 15 minutes
+TENANT_NUMBERING_CACHE_TIMEOUT = int(os.getenv('TENANT_NUMBERING_CACHE_TIMEOUT', '1800'))  # 30 minutes
+
+# Performance optimizations
+ENABLE_CACHE_WARMUP = config('ENABLE_CACHE_WARMUP', default=True, cast=bool)
+ENABLE_BATCH_TENANT_CALLS = config('ENABLE_BATCH_TENANT_CALLS', default=True, cast=bool)
+
 # Créer le dossier media s'il n'existe pas
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_ROOT.mkdir(exist_ok=True)
 DOCUMENT_SERVICE['PDF_STORAGE_PATH'].mkdir(exist_ok=True)
-
-# Configuration JWT - Compatible avec les autres services
-from datetime import timedelta
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': False,
-    'UPDATE_LAST_LOGIN': True,
-    
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': config('JWT_SECRET_KEY', default=SECRET_KEY),
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'JWK_URL': None,
-    'LEEWAY': 0,
-    
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-    
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
-    
-    'JTI_CLAIM': 'jti',
-    
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(hours=1),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-}
 
 MEDIA_URL = '/media/'
 

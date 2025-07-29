@@ -14,12 +14,13 @@ def get_current_date():
 
 
 class VATRate(models.TextChoices):
-    """Taux de TVA - Compatible avec les deux modules"""
+    """
+    Taux de TVA - Legacy pour compatibilité
+    DEPRECATED: Utiliser VatRateService pour les taux tenant-specific
+    """
     ZERO = "0", _("0%")
-    REDUCED_55 = "5.5", _("5.5%")  # Pour devis
-    REDUCED_7 = "7", _("7%")        # Pour factures
+    REDUCED_55 = "5.5", _("5.5%")
     REDUCED_10 = "10", _("10%")
-    INTERMEDIATE = "14", _("14%")   # Pour factures
     STANDARD = "20", _("20%")
 
 
@@ -72,21 +73,52 @@ class BaseDocument(models.Model):
     class Meta:
         abstract = True
         
-    def update_totals(self):
-        """Recalcule les totaux du document"""
+    def update_totals(self, tenant_id=None):
+        """
+        Recalcule les totaux du document
+        
+        Args:
+            tenant_id: ID du tenant pour résoudre les taux de TVA (optionnel)
+        """
         items = self.items.all()
         
         total_ht = Decimal('0')
         total_vat = Decimal('0')
+        
+        # Importer le service ici pour éviter les imports circulaires
+        from .services.vat_rate_service import vat_rate_service
         
         for item in items:
             if item.type not in ["chapter", "section"]:
                 total_ht += item.total_ht or Decimal('0')
                 
                 # Calculer la TVA
-                vat_rate = Decimal(item.vat_rate) / Decimal('100')
-                item_vat = item.total_ht * vat_rate
-                total_vat += item_vat
+                try:
+                    if tenant_id:
+                        # Utiliser le service pour résoudre le taux de TVA
+                        vat_rate_info = vat_rate_service.get_vat_rate_by_code(tenant_id, item.vat_rate)
+                        if vat_rate_info:
+                            vat_rate = Decimal(str(vat_rate_info['rate'])) / Decimal('100')
+                        else:
+                            # Fallback : utiliser le code comme taux numérique
+                            vat_rate = Decimal(item.vat_rate) / Decimal('100')
+                    else:
+                        # Fallback : utiliser le code comme taux numérique
+                        vat_rate = Decimal(item.vat_rate) / Decimal('100')
+                    
+                    item_vat = item.total_ht * vat_rate
+                    total_vat += item_vat
+                    
+                except (ValueError, TypeError, InvalidOperation) as e:
+                    # En cas d'erreur, logger et utiliser un taux par défaut
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"Erreur calcul TVA pour item {item.id}, taux {item.vat_rate}: {e}")
+                    
+                    # Utiliser un taux par défaut de 20%
+                    default_vat_rate = Decimal('0.20')
+                    item_vat = item.total_ht * default_vat_rate
+                    total_vat += item_vat
         
         self.total_ht = total_ht
         self.total_vat = total_vat
@@ -98,8 +130,8 @@ class BaseDocumentItem(models.Model):
     """
     Classe abstraite pour tous les éléments de documents
     """
-    PRODUCT = "product"
-    SERVICE = "service"
+    MATERIAL = "material"
+    LABOR = "labor"
     WORK = "work"
     CHAPTER = "chapter"
     SECTION = "section"
@@ -107,8 +139,8 @@ class BaseDocumentItem(models.Model):
     ADVANCE_PAYMENT = "advance_payment"  # Spécifique factures
     
     TYPE_CHOICES = [
-        (PRODUCT, _("Produit")),
-        (SERVICE, _("Service")),
+        (MATERIAL, _("Matériau")),
+        (LABOR, _("Main d'œuvre")),
         (WORK, _("Ouvrage")),
         (CHAPTER, _("Chapitre")),
         (SECTION, _("Section")),
@@ -117,7 +149,7 @@ class BaseDocumentItem(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=PRODUCT)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=MATERIAL)
     parent = models.ForeignKey(
         "self", 
         on_delete=models.CASCADE, 
@@ -137,9 +169,9 @@ class BaseDocumentItem(models.Model):
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0, verbose_name=_("Remise (%)"))
     vat_rate = models.CharField(
         max_length=10, 
-        choices=VATRate.choices, 
-        default=VATRate.STANDARD,
-        verbose_name=_("Taux TVA")
+        default="20",  # Valeur par défaut sans contrainte sur les choix
+        verbose_name=_("Taux TVA"),
+        help_text=_("Code du taux de TVA (ex: '0', '5.5', '10', '20')")
     )
     total_ht = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name=_("Total HT"))
     total_ttc = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name=_("Total TTC"))
@@ -156,34 +188,126 @@ class BaseDocumentItem(models.Model):
         ordering = ["position"]
     
     def save(self, *args, **kwargs):
-        """Calcule automatiquement les totaux HT et TTC"""
+        """
+        Calcule automatiquement les totaux HT et TTC - VERSION OPTIMISÉE
+        
+        Optimisations:
+        - Éviter les appels répétés aux services externes
+        - Calculs batch pour les items d'un même document
+        - Update_totals uniquement si nécessaire
+        """
+        tenant_id = kwargs.pop('tenant_id', None)
+        skip_document_update = kwargs.pop('skip_document_update', False)
+        
+        if self.type not in ["chapter", "section"]:
+            self._calculate_item_totals(tenant_id)
+        
+        super().save(*args, **kwargs)
+        
+        # Mettre à jour les totaux du document parent seulement si demandé
+        if not skip_document_update:
+            document = getattr(self, 'quote', None) or getattr(self, 'invoice', None)
+            if document:
+                document.update_totals(tenant_id=tenant_id)
+    
+    def _calculate_item_totals(self, tenant_id=None):
+        """
+        Calcule les totaux pour un item avec gestion d'erreur optimisée
+        """
+        try:
+            unit_price = Decimal(str(self.unit_price)) if self.unit_price else Decimal('0')
+            quantity = Decimal(str(self.quantity)) if self.quantity else Decimal('1')
+            discount = Decimal(str(self.discount)) if self.discount else Decimal('0')
+            
+            # Calculs avec types Decimal uniformes
+            discount_factor = Decimal('1') - (discount / Decimal('100'))
+            net_price = unit_price * discount_factor
+            self.total_ht = net_price * quantity
+            
+            # Calculer le taux de TVA avec cache local pour éviter appels répétés
+            vat_rate_decimal = self._get_vat_rate_decimal(tenant_id)
+            vat_amount = self.total_ht * vat_rate_decimal
+            self.total_ttc = self.total_ht + vat_amount
+            
+        except (ValueError, TypeError, InvalidOperation) as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(f"Erreur calcul totaux pour item {getattr(self, 'id', 'nouveau')}: {e}")
+            self.total_ht = Decimal('0')
+            self.total_ttc = Decimal('0')
+    
+    def _get_vat_rate_decimal(self, tenant_id=None):
+        """
+        Récupère le taux de TVA en décimal avec cache local pour optimiser
+        """
+        # Cache local simple pour éviter les appels répétés
+        cache_key = f"vat_rate_{tenant_id}_{self.vat_rate}"
+        
+        if hasattr(self, '_vat_cache') and cache_key in self._vat_cache:
+            return self._vat_cache[cache_key]
+        
+        if not hasattr(self, '_vat_cache'):
+            self._vat_cache = {}
+        
+        try:
+            if tenant_id:
+                from .services.vat_rate_service import vat_rate_service
+                vat_rate_info = vat_rate_service.get_vat_rate_by_code(tenant_id, self.vat_rate)
+                if vat_rate_info:
+                    vat_rate_decimal = Decimal(str(vat_rate_info['rate'])) / Decimal('100')
+                else:
+                    vat_rate_decimal = Decimal(str(self.vat_rate)) / Decimal('100')
+            else:
+                vat_rate_value = Decimal(str(self.vat_rate)) if self.vat_rate else Decimal('20')
+                vat_rate_decimal = vat_rate_value / Decimal('100')
+            
+            # Mettre en cache local
+            self._vat_cache[cache_key] = vat_rate_decimal
+            return vat_rate_decimal
+            
+        except (ValueError, TypeError, InvalidOperation):
+            # Fallback par défaut
+            return Decimal('0.20')  # 20% par défaut
+    
+    def calculate_totals_with_tenant(self, tenant_id):
+        """
+        Recalcule les totaux en utilisant les taux de TVA tenant-specific
+        
+        Args:
+            tenant_id: ID du tenant pour résoudre les taux de TVA
+        """
         if self.type not in ["chapter", "section"]:
             try:
                 unit_price = Decimal(str(self.unit_price)) if self.unit_price else Decimal('0')
                 quantity = Decimal(str(self.quantity)) if self.quantity else Decimal('1')
                 discount = Decimal(str(self.discount)) if self.discount else Decimal('0')
-                vat_rate_value = Decimal(str(self.vat_rate)) if self.vat_rate else Decimal('20')
                 
                 # Calculs avec types Decimal uniformes
                 discount_factor = Decimal('1') - (discount / Decimal('100'))
                 net_price = unit_price * discount_factor
                 self.total_ht = net_price * quantity
                 
-                vat_rate_decimal = vat_rate_value / Decimal('100')
+                # Utiliser le service pour résoudre le taux de TVA
+                from .services.vat_rate_service import vat_rate_service
+                vat_rate_info = vat_rate_service.get_vat_rate_by_code(tenant_id, self.vat_rate)
+                
+                if vat_rate_info:
+                    vat_rate_decimal = Decimal(str(vat_rate_info['rate'])) / Decimal('100')
+                else:
+                    # Fallback : utiliser le code comme taux numérique
+                    vat_rate_decimal = Decimal(str(self.vat_rate)) / Decimal('100')
+                
                 vat_amount = self.total_ht * vat_rate_decimal
                 self.total_ttc = self.total_ht + vat_amount
                 
-            except (ValueError, TypeError, InvalidOperation):
+            except (ValueError, TypeError, InvalidOperation) as e:
                 # Fallback avec valeurs par défaut
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Erreur calcul totaux tenant-specific pour item {self.id}: {e}")
+                
                 self.total_ht = Decimal('0')
                 self.total_ttc = Decimal('0')
-        
-        super().save(*args, **kwargs)
-        
-        # Mettre à jour les totaux du document parent
-        document = getattr(self, 'quote', None) or getattr(self, 'invoice', None)
-        if document:
-            document.update_totals()
 
 
 # =============================================================================
@@ -232,8 +356,47 @@ class Quote(BaseDocument):
             models.Index(fields=['number']),
         ]
     
+    def save(self, *args, **kwargs):
+        """Override save pour générer automatiquement le numéro"""
+        # Générer le numéro si vide ou en création
+        if not self.number or self.number == "":
+            from .services.number_service import DocumentNumberService
+            # Pour la génération du numéro, on a besoin du tenant_id
+            # On utilise une approche de fallback simple pour l'instant
+            try:
+                # Essayer de récupérer le tenant_id depuis le contexte de la requête
+                tenant_id = getattr(self, '_tenant_id', None)
+                if tenant_id:
+                    self.number = DocumentNumberService.generate_quote_number(tenant_id)
+                else:
+                    # Fallback simple avec timestamp
+                    from datetime import datetime
+                    self.number = f"DEV-{datetime.now().year}-{str(int(datetime.now().timestamp()))[-6:]}"
+            except Exception as e:
+                # Fallback en cas d'erreur
+                from datetime import datetime
+                self.number = f"DEV-{datetime.now().year}-{str(int(datetime.now().timestamp()))[-6:]}"
+        
+        super().save(*args, **kwargs)
+    
     def __str__(self):
-        return f"{self.number} - {self.client_name} - {self.total_ttc} €"
+        # Récupérer la devise du tenant si possible
+        currency = self._get_tenant_currency()
+        return f"{self.number} - {self.client_name} - {self.total_ttc} {currency}"
+    
+    def _get_tenant_currency(self):
+        """Récupère la devise du tenant depuis le cache ou fallback"""
+        try:
+            from .services.tenant_client import TenantConfigClient
+            # Essayer de récupérer depuis le contexte de la requête
+            tenant_id = getattr(self, '_tenant_id', None)
+            if tenant_id:
+                config = TenantConfigClient.get_cached_config(tenant_id)
+                if config and 'settings' in config:
+                    return config['settings'].get('currency', 'MAD')
+        except Exception:
+            pass
+        return 'MAD'  # Fallback
     
     @property
     def client_id(self):
@@ -243,8 +406,13 @@ class Quote(BaseDocument):
     
     def mark_as_sent(self):
         """Marque le devis comme envoyé"""
+        # Générer le numéro si c'est un brouillon
+        if self.status == QuoteStatus.DRAFT and self.number == "Brouillon":
+            from .services.number_service import DocumentNumberService
+            self.number = DocumentNumberService.generate_quote_number()
+        
         self.status = QuoteStatus.SENT
-        self.save(update_fields=['status'])
+        self.save(update_fields=['status', 'number'])
     
     def mark_as_accepted(self):
         """Marque le devis comme accepté"""
@@ -357,11 +525,11 @@ class Invoice(BaseDocument):
         if self.status == InvoiceStatus.DRAFT:
             # Générer le numéro si c'est un brouillon
             if self.number == "Brouillon":
-                # TODO: Implémenter la génération de numéro
-                pass
+                from .services.number_service import DocumentNumberService
+                self.number = DocumentNumberService.generate_invoice_number()
         
         self.status = InvoiceStatus.SENT
-        self.save(update_fields=['status'])
+        self.save(update_fields=['status', 'number'])
     
     def record_payment(self, amount, method, date=None, reference=None, notes=None):
         """Enregistre un paiement"""

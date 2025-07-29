@@ -30,6 +30,7 @@ def to_snake_case(camel_str):
 class CamelCaseResponseMixin:
     """
     Mixin pour convertir les clés des réponses de snake_case à camelCase
+    ET des données d'entrée de camelCase à snake_case
     """
     def to_representation(self, instance):
         """
@@ -37,6 +38,15 @@ class CamelCaseResponseMixin:
         """
         result = super().to_representation(instance)
         return self._convert_dict_keys_to_camel_case(result)
+    
+    def to_internal_value(self, data):
+        """
+        Surcharge pour convertir les clés d'entrée de camelCase à snake_case
+        """
+        # D'abord convertir les clés
+        converted_data = self._convert_dict_keys_to_snake_case(data)
+        # Puis appliquer la validation normale
+        return super().to_internal_value(converted_data)
 
     def _convert_dict_keys_to_camel_case(self, data):
         """
@@ -57,6 +67,23 @@ class CamelCaseResponseMixin:
             return new_dict
         elif isinstance(data, list):
             return [self._convert_dict_keys_to_camel_case(item) for item in data]
+        return data
+    
+    def _convert_dict_keys_to_snake_case(self, data):
+        """
+        Convertit récursivement toutes les clés d'un dictionnaire de camelCase à snake_case
+        """
+        if isinstance(data, dict):
+            new_dict = OrderedDict()
+            for key, value in data.items():
+                if key == 'id' or key.endswith('_id'):  # Garder id et les clés *_id telles quelles
+                    new_key = key
+                else:
+                    new_key = to_snake_case(key)
+                new_dict[new_key] = self._convert_dict_keys_to_snake_case(value)
+            return new_dict
+        elif isinstance(data, list):
+            return [self._convert_dict_keys_to_snake_case(item) for item in data]
         return data
         
     @staticmethod

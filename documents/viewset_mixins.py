@@ -81,28 +81,33 @@ class QueryOptimizationMixin:
     """Mixin pour les optimisations de requêtes"""
     
     def get_optimized_queryset(self, action=None):
-        """Retourne un queryset optimisé selon l'action"""
-        base_queryset = self.get_queryset()
+        """Retourne un queryset optimisé selon l'action avec corrections pour schémas tenant"""
+        base_queryset = self.queryset
         action = action or getattr(self, 'action', 'list')
         
         if action == 'list':
             # Pour la liste, éviter les gros champs et optimiser les relations
-            return base_queryset.select_related().defer(
+            # CORRECTION: tier_id n'existe plus, utiliser client_name pour les stats
+            return base_queryset.defer(
                 'notes', 'terms_and_conditions', 'client_address', 'project_address'
-            ).annotate(items_count=Count('items'))
+            ).annotate(items_count=Count('items')).order_by('-created_at')
         
         elif action == 'retrieve':
-            # Pour le détail, charger toutes les relations nécessaires
-            return base_queryset.select_related().prefetch_related('items')
+            # Pour le détail, charger toutes les relations nécessaires avec optimisation
+            return base_queryset.prefetch_related(
+                'items__parent',
+                'items__children'
+            ).select_related()
         
         elif action in ['stats', 'get_stats']:
             # Pour les stats, seulement les champs nécessaires
+            # CORRECTION: tier_id supprimé du only()
             return base_queryset.only(
-                'id', 'status', 'total_ht', 'total_ttc', 'tier_id',
+                'id', 'status', 'total_ht', 'total_ttc',
                 'issue_date', 'created_at'
             )
         
-        return base_queryset.select_related()
+        return base_queryset
 
 
 class FilterMixin:
@@ -110,10 +115,10 @@ class FilterMixin:
     
     def apply_advanced_filters(self, queryset):
         """Applique les filtres avancés depuis les paramètres de requête"""
-        # Filtre par client
-        client_id = self.request.query_params.get('client_id')
-        if client_id:
-            queryset = queryset.filter(tier_id=client_id)
+        # Filtre par client (corrigé pour l'architecture sans tier_id)
+        client_filter = self.request.query_params.get('client_id') or self.request.query_params.get('client_name')
+        if client_filter:
+            queryset = queryset.filter(client_name__icontains=client_filter)
         
         # Filtre par statut multiple
         status_list = self.request.query_params.get('status_list')
@@ -206,17 +211,20 @@ class AuditMixin:
     def perform_create(self, serializer):
         """Personnalise la création avec l'utilisateur créateur"""
         serializer.save(created_by=self.get_user_info())
-        self._invalidate_cache()
+        # Désactiver temporairement l'invalidation du cache
+        # self._invalidate_cache()
     
     def perform_update(self, serializer):
         """Personnalise la mise à jour avec l'utilisateur modificateur"""
         serializer.save(updated_by=self.get_user_info())
-        self._invalidate_cache()
+        # Désactiver temporairement l'invalidation du cache
+        # self._invalidate_cache()
     
     def perform_destroy(self, instance):
         """Logique métier lors de la suppression"""
         super().perform_destroy(instance)
-        self._invalidate_cache()
+        # Désactiver temporairement l'invalidation du cache
+        # self._invalidate_cache()
 
 
 class DocumentActionMixin:
@@ -241,7 +249,8 @@ class DocumentActionMixin:
         
         try:
             result = action_methods[action](instance, note)
-            self._invalidate_cache()
+            # Désactiver temporairement l'invalidation du cache
+            # self._invalidate_cache()
             return Response(result)
         except Exception as e:
             return Response(
@@ -343,8 +352,7 @@ class ExportMixin:
     
     def export_document(self, instance, format_type='pdf', include_details=True):
         """Exporte un document dans le format spécifié"""
-        # TODO: Implémenter les générateurs de PDF/Excel
-        # Pour l'instant, retourner les données JSON
+        from ..services.pdf_service import PDFService
         
         if format_type == 'pdf':
             return self._export_pdf(instance, include_details)
@@ -359,12 +367,25 @@ class ExportMixin:
             )
     
     def _export_pdf(self, instance, include_details):
-        """Export PDF - À implémenter"""
-        return Response({
-            'message': 'Export PDF non encore implémenté',
-            'format': 'pdf',
-            'document_id': str(instance.id)
-        })
+        """Export PDF avec génération réelle"""
+        from ..services.pdf_service import PDFService
+        from django.http import HttpResponse
+        
+        try:
+            # Générer le PDF avec support tenant
+            pdf_service = PDFService.from_request(self.request)
+            pdf_buffer = pdf_service.generate_document_pdf(instance, include_details)
+            
+            # Préparer la réponse HTTP
+            response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{instance.number}.pdf"'
+            return response
+            
+        except Exception as e:
+            return Response({
+                'error': f'Erreur lors de la génération du PDF: {str(e)}',
+                'document_id': str(instance.id)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def _export_excel(self, instance, include_details):
         """Export Excel - À implémenter"""

@@ -88,7 +88,7 @@ class BaseDocumentSerializer(CamelCaseResponseMixin,
     class Meta:
         abstract = True
         fields = [
-            'id', 'number', 'tier_id', 'client_name', 'client_address', 'client_info',
+            'id', 'number', 'client_name', 'client_address', 'client_info',
             'project_name', 'project_address', 'project_reference', 'project_info',
             'issue_date', 'issue_date_formatted', 'notes', 'terms_and_conditions',
             'total_ht', 'total_vat', 'total_ttc', 'items_count', 'vat_breakdown',
@@ -181,31 +181,145 @@ class QuoteDetailSerializer(QuoteSerializer):
         return self.calculate_totals_summary(items)
 
 
+class QuoteItemCreateSerializer(BaseDocumentItemSerializer):
+    """Serializer pour créer des éléments de devis (sans référence au quote parent)"""
+    
+    # Champ spécifique aux devis
+    margin = serializers.DecimalField(max_digits=5, decimal_places=2, required=False)
+    
+    class Meta:
+        model = QuoteItem
+        fields = BaseDocumentItemSerializer.Meta.fields + ['margin']
+        read_only_fields = BaseDocumentItemSerializer.Meta.read_only_fields
+        # Note: 'quote' exclu car sera défini lors de la création
+
+
 class QuoteCreateSerializer(QuoteSerializer):
     """Serializer pour créer un devis"""
     
-    # Éléments pour création
-    items = QuoteItemSerializer(many=True, required=False)
+    # Éléments pour création (utilise le serializer spécialisé)
+    items = QuoteItemCreateSerializer(many=True, required=False)
     
     class Meta(QuoteSerializer.Meta):
-        read_only_fields = ['id', 'created_at', 'updated_at']  # Enlever 'number' pour permettre la création
+        fields = QuoteSerializer.Meta.fields + ['items']
+        read_only_fields = ['id', 'number', 'created_at', 'updated_at']  # number généré automatiquement
+    
+    def to_internal_value(self, data):
+        """Override pour logger les données reçues"""
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"QuoteCreateSerializer - Données brutes reçues: {data}")
+        
+        try:
+            result = super().to_internal_value(data)
+            logger.info(f"QuoteCreateSerializer - Données validées: {result}")
+            return result
+        except Exception as e:
+            logger.error(f"QuoteCreateSerializer - Erreur de validation: {e}")
+            logger.error(f"QuoteCreateSerializer - Données causant l'erreur: {data}")
+            raise
     
     def create(self, validated_data):
-        """Créer un devis avec ses éléments"""
+        """Créer un devis avec ses éléments - Version optimisée"""
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        logger.info(f"QuoteCreateSerializer.create - Données reçues: {validated_data}")
+        
         items_data = validated_data.pop('items', [])
+        logger.info(f"QuoteCreateSerializer.create - Items extraits: {items_data}")
+        
+        # Récupérer le tenant_id depuis le contexte
+        request = self.context.get('request')
+        tenant_id = getattr(request, 'tenant_id', None) if request else None
+        logger.info(f"QuoteCreateSerializer.create - Tenant ID: {tenant_id}")
+        
+        if not tenant_id:
+            raise serializers.ValidationError("Tenant ID requis pour créer un devis")
+        
+        # OPTIMISATION: Utiliser le cache simple pour les configurations
+        try:
+            from .services.cache_service import TenantConfigCacheService
+            from .services.tenant_client import TenantConfigClient
+            
+            # Récupérer la config tenant basique
+            tenant_config = TenantConfigClient.get_cached_config(tenant_id)
+            logger.info(f"Configuration tenant récupérée pour {tenant_id}")
+            
+            # Extraire les taux de TVA pour les calculs
+            vat_rates = tenant_config.get('vat_rates', [])
+            vat_rates_map = {rate.get('code'): rate for rate in vat_rates}
+            
+        except Exception as e:
+            logger.error(f"Erreur récupération configs batch: {e}")
+            vat_rates_map = {}
         
         # Créer le devis
         quote = Quote.objects.create(**validated_data)
+        # Ajouter le tenant_id pour la génération du numéro
+        quote._tenant_id = tenant_id
+        quote.save()  # Déclencher la génération du numéro
+        logger.info(f"QuoteCreateSerializer.create - Devis créé: {quote.id}")
         
-        # Créer les éléments
+        # Créer les éléments en lot avec calculs optimisés
+        items_to_create = []
         for item_data in items_data:
-            QuoteItem.objects.create(quote=quote, **item_data)
+            logger.info(f"QuoteCreateSerializer.create - Préparation item: {item_data}")
+            
+            item = QuoteItem(quote=quote, **item_data)
+            
+            # Calculer les totaux avec les configs préchargées
+            if item.type not in ["chapter", "section"]:
+                # Calcul optimisé avec les taux préchargés
+                self._calculate_item_totals_optimized(item, vat_rates_map)
+            
+            items_to_create.append(item)
         
-        # Mettre à jour les totaux
-        quote.update_totals()
+        # Sauvegarde en lot pour optimiser les performances
+        QuoteItem.objects.bulk_create(items_to_create)
+        logger.info(f"Items créés en lot: {len(items_to_create)}")
+        
+        # Mettre à jour les totaux du devis une seule fois
+        quote.update_totals(tenant_id=tenant_id)
         quote.refresh_from_db()
         
+        logger.info(f"QuoteCreateSerializer.create - Devis finalisé: {quote}")
         return quote
+    
+    def _calculate_item_totals_optimized(self, item, vat_rates_map):
+        """
+        Calcule les totaux d'un item avec les taux de TVA préchargés
+        """
+        from decimal import Decimal, InvalidOperation
+        
+        try:
+            unit_price = Decimal(str(item.unit_price)) if item.unit_price else Decimal('0')
+            quantity = Decimal(str(item.quantity)) if item.quantity else Decimal('1')
+            discount = Decimal(str(item.discount)) if item.discount else Decimal('0')
+            
+            # Calculs avec types Decimal uniformes
+            discount_factor = Decimal('1') - (discount / Decimal('100'))
+            net_price = unit_price * discount_factor
+            item.total_ht = net_price * quantity
+            
+            # Calculer la TVA avec les taux préchargés
+            vat_rate_info = vat_rates_map.get(item.vat_rate)
+            if vat_rate_info:
+                vat_rate_decimal = Decimal(str(vat_rate_info['rate'])) / Decimal('100')
+            else:
+                # Fallback : utiliser le code comme taux numérique
+                vat_rate_decimal = Decimal(str(item.vat_rate)) / Decimal('100')
+            
+            vat_amount = item.total_ht * vat_rate_decimal
+            item.total_ttc = item.total_ht + vat_amount
+            
+        except (ValueError, TypeError, InvalidOperation) as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(f"Erreur calcul totaux optimisé pour item {getattr(item, 'designation', 'nouveau')}: {e}")
+            
+            item.total_ht = Decimal('0')
+            item.total_ttc = Decimal('0')
 
 
 # =============================================================================
@@ -341,15 +455,20 @@ class InvoiceCreateSerializer(InvoiceSerializer):
         """Créer une facture avec ses éléments"""
         items_data = validated_data.pop('items', [])
         
+        # Récupérer le tenant_id depuis le contexte
+        request = self.context.get('request')
+        tenant_id = getattr(request, 'tenant_id', None) if request else None
+        
         # Créer la facture
         invoice = Invoice.objects.create(**validated_data)
         
-        # Créer les éléments
+        # Créer les éléments en passant le tenant_id
         for item_data in items_data:
-            InvoiceItem.objects.create(invoice=invoice, **item_data)
+            item = InvoiceItem(invoice=invoice, **item_data)
+            item.save(tenant_id=tenant_id)
         
-        # Mettre à jour les totaux
-        invoice.update_totals()
+        # Mettre à jour les totaux avec le tenant_id
+        invoice.update_totals(tenant_id=tenant_id)
         invoice.refresh_from_db()
         
         return invoice
