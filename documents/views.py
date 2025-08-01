@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Count, Sum, Avg, Q, F
+from django.db.models import Count, Sum, Avg, Q, F, Case, When, Value, FloatField
 from django.db import transaction
 from decimal import Decimal
 
@@ -147,17 +147,30 @@ class QuoteViewSet(viewsets.ModelViewSet,
         base_stats = self.calculate_base_stats(queryset)
         
         # Stats spécifiques aux devis
-        quote_specific = queryset.aggregate(
-            # Taux d'acceptation
-            acceptance_rate=Count('id', filter=Q(status=QuoteStatus.ACCEPTED)) * 100.0 / Count('id'),
-            # Montant moyen par statut
-            avg_accepted_amount=Avg('total_ttc', filter=Q(status=QuoteStatus.ACCEPTED)) or Decimal('0'),
-            # Délai moyen de validation
-            avg_validation_days=Avg(
-                F('updated_at') - F('created_at'),
-                filter=Q(status__in=[QuoteStatus.ACCEPTED, QuoteStatus.REJECTED])
+        total_quotes = queryset.count()
+        if total_quotes > 0:
+            quote_specific = queryset.aggregate(
+                # Taux d'acceptation - éviter division par zéro
+                accepted_count=Count('id', filter=Q(status=QuoteStatus.ACCEPTED)),
+                total_count=Count('id'),
+                # Montant moyen par statut
+                avg_accepted_amount=Avg('total_ttc', filter=Q(status=QuoteStatus.ACCEPTED)) or Decimal('0'),
+                # Délai moyen de validation
+                avg_validation_days=Avg(
+                    F('updated_at') - F('created_at'),
+                    filter=Q(status__in=[QuoteStatus.ACCEPTED, QuoteStatus.REJECTED])
+                )
             )
-        )
+            # Calculer le taux après récupération pour éviter division par zéro
+            quote_specific['acceptance_rate'] = (quote_specific['accepted_count'] * 100.0 / quote_specific['total_count']) if quote_specific['total_count'] > 0 else 0.0
+        else:
+            quote_specific = {
+                'accepted_count': 0,
+                'total_count': 0,
+                'acceptance_rate': 0.0,
+                'avg_accepted_amount': Decimal('0'),
+                'avg_validation_days': None
+            }
         
         stats_data = {**base_stats, **quote_specific}
         
@@ -438,24 +451,39 @@ class InvoiceViewSet(viewsets.ModelViewSet,
         base_stats = self.calculate_base_stats(queryset)
         
         # Stats spécifiques aux factures
-        invoice_specific = queryset.aggregate(
-            # Montants de paiement
-            total_paid=Sum('paid_amount') or Decimal('0'),
-            total_outstanding=Sum('remaining_amount') or Decimal('0'),
-            overdue_amount=Sum(
-                'remaining_amount',
-                filter=Q(status=InvoiceStatus.OVERDUE)
-            ) or Decimal('0'),
-            
-            # Délai moyen de paiement
-            avg_payment_delay=Avg(
-                F('payments__date') - F('issue_date'),
-                filter=Q(status=InvoiceStatus.PAID)
-            ),
-            
-            # Taux de paiement
-            payment_rate=Count('id', filter=Q(status=InvoiceStatus.PAID)) * 100.0 / Count('id')
-        )
+        total_invoices = queryset.count()
+        if total_invoices > 0:
+            invoice_specific = queryset.aggregate(
+                # Montants de paiement
+                total_paid=Sum('paid_amount') or Decimal('0'),
+                total_outstanding=Sum('remaining_amount') or Decimal('0'),
+                overdue_amount=Sum(
+                    'remaining_amount',
+                    filter=Q(status=InvoiceStatus.OVERDUE)
+                ) or Decimal('0'),
+                
+                # Délai moyen de paiement
+                avg_payment_delay=Avg(
+                    F('payments__date') - F('issue_date'),
+                    filter=Q(status=InvoiceStatus.PAID)
+                ),
+                
+                # Taux de paiement - éviter division par zéro
+                paid_count=Count('id', filter=Q(status=InvoiceStatus.PAID)),
+                total_count=Count('id')
+            )
+            # Calculer le taux après récupération pour éviter division par zéro
+            invoice_specific['payment_rate'] = (invoice_specific['paid_count'] * 100.0 / invoice_specific['total_count']) if invoice_specific['total_count'] > 0 else 0.0
+        else:
+            invoice_specific = {
+                'total_paid': Decimal('0'),
+                'total_outstanding': Decimal('0'),
+                'overdue_amount': Decimal('0'),
+                'avg_payment_delay': None,
+                'paid_count': 0,
+                'total_count': 0,
+                'payment_rate': 0.0
+            }
         
         stats_data = {**base_stats, **invoice_specific}
         
