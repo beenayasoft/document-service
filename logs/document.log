@@ -2085,3 +2085,157 @@ DEBUG 2025-07-29 12:09:03,551 camel_case_middleware 11172 15144 Paramètres GET a
 DEBUG 2025-07-29 12:09:03,552 camel_case_middleware 11172 15144 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
 DEBUG 2025-07-29 12:09:03,604 middleware_django_tenants 11172 15144 Document - Tenant trouvé: Tenant 8dd6f442-cd07-4993-8930-10abb2b23e7d
 DEBUG 2025-07-29 12:09:03,604 middleware_django_tenants 11172 15144 Document - Tenant activé: 8dd6f442-cd07-4993-8930-10abb2b23e7d (schema: tenant_kewa)
+DEBUG 2025-07-30 15:35:24,568 middleware_django_tenants 27544 24544 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 15:35:24,571 middleware_django_tenants 27544 24544 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 15:35:24,678 middleware_django_tenants 27544 19572 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 15:35:24,680 middleware_django_tenants 27544 19572 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 15:35:24,860 middleware_django_tenants 27544 20388 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 15:35:24,860 middleware_django_tenants 27544 20388 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 15:35:24,889 middleware_django_tenants 27544 17940 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 15:35:24,899 middleware_django_tenants 27544 17940 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 15:57:31,484 middleware_django_tenants 27544 23076 Document - Création contrôlée du tenant: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9
+INFO 2025-07-30 15:57:31,485 middleware_django_tenants 27544 11940 Document - Création contrôlée du tenant: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9
+INFO 2025-07-30 15:57:31,561 middleware_django_tenants 27544 14916 Document - Création contrôlée du tenant: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9
+INFO 2025-07-30 15:57:31,604 middleware_django_tenants 27544 26252 Document - Création contrôlée du tenant: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9
+INFO 2025-07-30 15:57:55,990 middleware_django_tenants 27544 23076 Document - Tenant créé: moolight (schema: tenant_moolight)
+WARNING 2025-07-30 15:57:56,083 middleware_django_tenants 27544 11940 Document - Erreur création, récupération: duplicate key value violates unique constraint "tenant_schema_client_schema_name_key"
+DETAIL:  Key (schema_name)=(tenant_moolight) already exists.
+
+WARNING 2025-07-30 15:57:56,118 middleware_django_tenants 27544 14916 Document - Erreur création, récupération: duplicate key value violates unique constraint "tenant_schema_client_schema_name_key"
+DETAIL:  Key (schema_name)=(tenant_moolight) already exists.
+
+WARNING 2025-07-30 15:57:56,131 middleware_django_tenants 27544 26252 Document - Erreur création, récupération: duplicate key value violates unique constraint "tenant_schema_client_schema_name_key"
+DETAIL:  Key (schema_name)=(tenant_moolight) already exists.
+
+DEBUG 2025-07-30 15:57:56,174 middleware_django_tenants 27544 11940 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 15:57:56,247 middleware_django_tenants 27544 14916 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 15:57:56,278 middleware_django_tenants 27544 23076 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 15:57:56,289 middleware_django_tenants 27544 26252 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:06:08,243 middleware_django_tenants 27544 26592 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:06:08,254 middleware_django_tenants 27544 26592 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:06:08,360 middleware_django_tenants 27544 12976 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:06:08,361 middleware_django_tenants 27544 12976 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:06:08,500 middleware_django_tenants 27544 15720 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:06:08,502 middleware_django_tenants 27544 15720 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:06:08,570 middleware_django_tenants 27544 7324 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:06:08,586 middleware_django_tenants 27544 7324 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:12:07,097 middleware_django_tenants 27544 27428 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:12:07,111 middleware_django_tenants 27544 27428 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:12:07,177 middleware_django_tenants 27544 16104 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:12:07,216 middleware_django_tenants 27544 16212 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:12:07,243 middleware_django_tenants 27544 16104 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:12:07,391 middleware_django_tenants 27544 16212 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:12:07,866 middleware_django_tenants 27544 26328 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:12:08,082 middleware_django_tenants 27544 26328 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:41:12,159 middleware_django_tenants 27544 27488 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:41:12,164 middleware_django_tenants 27544 27488 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:41:12,182 middleware_django_tenants 27544 6256 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:41:12,196 middleware_django_tenants 27544 3080 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:41:12,211 middleware_django_tenants 27544 6256 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:41:12,213 middleware_django_tenants 27544 3080 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 16:41:13,023 middleware_django_tenants 27544 11632 Document - Tenant trouvé: moolight
+DEBUG 2025-07-30 16:41:13,025 middleware_django_tenants 27544 11632 Document - Tenant activé: 717aeaa9-68d9-4f77-9a24-9308d5bd77e9 (schema: tenant_moolight)
+DEBUG 2025-07-30 20:42:10,280 camel_case_middleware 27544 28440 Paramètres GET avant conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-07-30 20:42:10,397 camel_case_middleware 27544 28440 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-07-30 20:42:12,859 camel_case_middleware 27544 16840 Paramètres GET avant conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-07-30 20:42:12,863 camel_case_middleware 27544 16840 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-07-30 20:42:16,534 middleware_django_tenants 27544 28440 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 20:42:16,535 middleware_django_tenants 27544 28440 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 20:42:18,862 middleware_django_tenants 27544 11792 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 20:42:18,890 middleware_django_tenants 27544 11792 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 20:42:19,356 middleware_django_tenants 27544 16840 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 20:42:19,402 middleware_django_tenants 27544 16840 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 20:42:19,955 middleware_django_tenants 27544 22016 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 20:42:19,984 middleware_django_tenants 27544 22016 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:19:22,259 middleware_django_tenants 27544 2008 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:19:22,267 middleware_django_tenants 27544 2008 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:19:22,346 middleware_django_tenants 27544 24444 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:19:22,375 middleware_django_tenants 27544 24444 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:19:23,368 middleware_django_tenants 27544 14584 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:19:23,369 middleware_django_tenants 27544 14584 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:19:26,271 middleware_django_tenants 27544 25880 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:19:26,271 middleware_django_tenants 27544 25880 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:25:22,246 middleware_django_tenants 27544 1824 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:25:22,254 middleware_django_tenants 27544 1824 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:25:22,474 middleware_django_tenants 27544 14908 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:25:22,563 middleware_django_tenants 27544 28196 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:25:22,581 middleware_django_tenants 27544 20996 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:25:22,968 middleware_django_tenants 27544 20996 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:25:22,965 middleware_django_tenants 27544 28196 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:25:22,830 middleware_django_tenants 27544 14908 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:42,804 middleware_django_tenants 27544 16144 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:42,808 middleware_django_tenants 27544 16144 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:42,862 middleware_django_tenants 27544 28404 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:42,864 middleware_django_tenants 27544 28404 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:42,963 middleware_django_tenants 27544 1456 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:42,970 middleware_django_tenants 27544 1456 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:43,018 middleware_django_tenants 27544 27132 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:43,019 middleware_django_tenants 27544 27132 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:43,116 middleware_django_tenants 27544 16212 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:43,120 middleware_django_tenants 27544 16212 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:43,279 middleware_django_tenants 27544 15708 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:43,281 middleware_django_tenants 27544 15708 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:49,312 middleware_django_tenants 27544 21956 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:49,314 middleware_django_tenants 27544 21956 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 00:48:49,383 middleware_django_tenants 27544 27380 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 00:48:49,384 middleware_django_tenants 27544 27380 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 01:01:34,795 middleware_django_tenants 27544 3084 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 01:01:34,797 middleware_django_tenants 27544 3084 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 01:01:34,840 middleware_django_tenants 27544 17168 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 01:01:34,842 middleware_django_tenants 27544 17168 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:01:18,575 middleware_django_tenants 27544 10116 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:01:18,576 middleware_django_tenants 27544 1028 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:01:18,580 middleware_django_tenants 27544 10116 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:01:18,581 middleware_django_tenants 27544 1028 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:21:48,224 middleware_django_tenants 27544 28028 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:21:48,226 middleware_django_tenants 27544 28028 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:21:48,262 middleware_django_tenants 27544 6276 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:21:48,263 middleware_django_tenants 27544 6276 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:21:48,316 middleware_django_tenants 27544 16292 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:21:48,322 middleware_django_tenants 27544 16292 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:21:48,332 middleware_django_tenants 27544 20588 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:21:48,336 middleware_django_tenants 27544 20588 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:53:22,394 middleware_django_tenants 27544 17144 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:53:22,394 middleware_django_tenants 27544 22580 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:53:22,396 middleware_django_tenants 27544 17144 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:53:22,397 middleware_django_tenants 27544 22580 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:53:22,432 middleware_django_tenants 27544 28200 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:53:22,433 middleware_django_tenants 27544 28200 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 09:53:22,469 middleware_django_tenants 27544 18072 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 09:53:22,473 middleware_django_tenants 27544 18072 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:28:17,269 middleware_django_tenants 27544 17744 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:28:17,283 middleware_django_tenants 27544 17744 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:28:17,678 middleware_django_tenants 27544 4124 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:28:17,705 middleware_django_tenants 27544 4124 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:42:20,978 middleware_django_tenants 27544 26728 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:42:20,979 middleware_django_tenants 27544 28652 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:42:20,980 middleware_django_tenants 27544 19324 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:42:21,000 middleware_django_tenants 27544 26728 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:42:21,022 middleware_django_tenants 27544 4124 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-31 10:42:21,261 middleware_django_tenants 27544 4124 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:42:21,082 middleware_django_tenants 27544 19324 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-31 10:42:21,032 middleware_django_tenants 27544 28652 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:29:18,203 middleware_django_tenants 14884 11828 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:29:18,205 middleware_django_tenants 14884 11828 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:29:18,209 middleware_django_tenants 14884 14952 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:29:18,210 middleware_django_tenants 14884 14952 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:33:58,080 middleware_django_tenants 14884 23436 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:33:58,082 middleware_django_tenants 14884 23436 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:33:58,101 middleware_django_tenants 14884 23776 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:33:58,105 middleware_django_tenants 14884 23776 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:38:18,084 middleware_django_tenants 14884 5036 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:38:18,088 middleware_django_tenants 14884 5036 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:38:18,258 middleware_django_tenants 14884 18956 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:38:18,262 middleware_django_tenants 14884 18956 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:39:33,421 middleware_django_tenants 14884 20272 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:39:33,422 middleware_django_tenants 14884 20272 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:39:33,832 middleware_django_tenants 14884 26076 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:39:33,833 middleware_django_tenants 14884 26076 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:39:34,773 middleware_django_tenants 14884 22080 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:39:34,774 middleware_django_tenants 14884 22080 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:39:35,113 middleware_django_tenants 14884 17596 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:39:35,115 middleware_django_tenants 14884 17596 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:40:30,023 middleware_django_tenants 14884 21780 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:40:30,030 middleware_django_tenants 14884 22872 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 10:40:30,045 middleware_django_tenants 14884 21780 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 10:40:30,049 middleware_django_tenants 14884 22872 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
