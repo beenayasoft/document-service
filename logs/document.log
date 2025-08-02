@@ -2085,3 +2085,604 @@ DEBUG 2025-07-29 12:09:03,551 camel_case_middleware 11172 15144 Paramètres GET a
 DEBUG 2025-07-29 12:09:03,552 camel_case_middleware 11172 15144 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
 DEBUG 2025-07-29 12:09:03,604 middleware_django_tenants 11172 15144 Document - Tenant trouvé: Tenant 8dd6f442-cd07-4993-8930-10abb2b23e7d
 DEBUG 2025-07-29 12:09:03,604 middleware_django_tenants 11172 15144 Document - Tenant activé: 8dd6f442-cd07-4993-8930-10abb2b23e7d (schema: tenant_kewa)
+INFO 2025-07-29 18:01:21,320 middleware_django_tenants 24964 17668 Document - Création contrôlée du tenant: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:21,324 middleware_django_tenants 24964 11988 Document - Création contrôlée du tenant: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:36,373 middleware_django_tenants 24964 11988 Document - Tenant créé: ETAO (schema: tenant_etao)
+WARNING 2025-07-29 18:01:36,467 middleware_django_tenants 24964 17668 Document - Erreur création, récupération: duplicate key value violates unique constraint "tenant_schema_client_schema_name_key"
+DETAIL:  Key (schema_name)=(tenant_etao) already exists.
+
+DEBUG 2025-07-29 18:01:36,544 middleware_django_tenants 24964 11988 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:36,551 payment_term_service 24964 11988 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:36,552 middleware_django_tenants 24964 17668 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:36,553 payment_term_service 24964 17668 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:38,143 middleware_django_tenants 24964 29676 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:38,143 middleware_django_tenants 24964 29676 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:38,144 payment_term_service 24964 29676 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:38,388 middleware_django_tenants 24964 33428 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:38,388 middleware_django_tenants 24964 33428 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:38,389 payment_term_service 24964 33428 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:39,022 payment_term_service 24964 17668 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:39,022 payment_term_service 24964 11988 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:40,063 middleware_django_tenants 24964 3012 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:40,064 middleware_django_tenants 24964 3012 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:40,064 payment_term_service 24964 3012 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:40,075 middleware_django_tenants 24964 18384 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:40,076 middleware_django_tenants 24964 18384 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:40,076 payment_term_service 24964 18384 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:40,548 payment_term_service 24964 29676 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:40,812 payment_term_service 24964 33428 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:41,325 middleware_django_tenants 24964 33580 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:41,325 middleware_django_tenants 24964 33580 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:41,326 payment_term_service 24964 33580 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-29 18:01:41,348 middleware_django_tenants 24964 4052 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-29 18:01:41,348 middleware_django_tenants 24964 4052 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-29 18:01:41,349 payment_term_service 24964 4052 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:42,530 payment_term_service 24964 18384 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:42,533 payment_term_service 24964 3012 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:43,720 payment_term_service 24964 33580 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-29 18:01:43,765 payment_term_service 24964 4052 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:45:49,575 middleware_django_tenants 24964 972 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:45:49,576 middleware_django_tenants 24964 972 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:45:49,583 payment_term_service 24964 972 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:45:49,583 middleware_django_tenants 24964 5048 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:45:49,584 middleware_django_tenants 24964 5048 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:45:49,585 payment_term_service 24964 5048 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:45:52,541 payment_term_service 24964 972 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:45:53,053 payment_term_service 24964 5048 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:45:54,915 middleware_django_tenants 24964 18556 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:45:54,915 middleware_django_tenants 24964 18556 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:45:54,916 payment_term_service 24964 18556 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:45:55,368 middleware_django_tenants 24964 12100 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:45:55,368 middleware_django_tenants 24964 12100 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:45:55,369 payment_term_service 24964 12100 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:45:57,758 payment_term_service 24964 18556 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:45:58,597 payment_term_service 24964 12100 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:00,090 middleware_django_tenants 24964 12508 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:00,091 middleware_django_tenants 24964 12508 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:00,091 payment_term_service 24964 12508 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:01,960 middleware_django_tenants 24964 10784 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:01,960 middleware_django_tenants 24964 10784 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:01,961 payment_term_service 24964 10784 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:04,745 payment_term_service 24964 10784 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:06,248 middleware_django_tenants 24964 32224 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:06,248 middleware_django_tenants 24964 32224 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:06,249 payment_term_service 24964 32224 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:06,344 payment_term_service 24964 12508 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:08,311 middleware_django_tenants 24964 33916 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:08,312 middleware_django_tenants 24964 33916 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:08,312 payment_term_service 24964 33916 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:09,382 payment_term_service 24964 32224 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:11,117 payment_term_service 24964 33916 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:15,842 middleware_django_tenants 24964 41208 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:15,842 middleware_django_tenants 24964 41208 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:15,843 payment_term_service 24964 41208 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:16,009 middleware_django_tenants 24964 29172 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:16,010 middleware_django_tenants 24964 29172 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:16,010 payment_term_service 24964 29172 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:18,916 payment_term_service 24964 41208 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:19,226 payment_term_service 24964 29172 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:21,249 middleware_django_tenants 24964 14692 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:21,249 middleware_django_tenants 24964 14692 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:21,249 payment_term_service 24964 14692 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:21,386 middleware_django_tenants 24964 38360 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:21,387 middleware_django_tenants 24964 38360 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:21,387 payment_term_service 24964 38360 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:24,461 payment_term_service 24964 14692 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:24,918 payment_term_service 24964 38360 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:28,319 middleware_django_tenants 24964 38756 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:28,319 middleware_django_tenants 24964 38756 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:28,320 payment_term_service 24964 38756 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:28,351 middleware_django_tenants 24964 3992 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:28,351 middleware_django_tenants 24964 3992 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:28,352 payment_term_service 24964 3992 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:31,323 payment_term_service 24964 3992 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:31,539 payment_term_service 24964 38756 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:32,852 middleware_django_tenants 24964 19128 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:32,852 middleware_django_tenants 24964 19128 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:32,853 payment_term_service 24964 19128 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 00:46:33,625 middleware_django_tenants 24964 32104 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 00:46:33,626 middleware_django_tenants 24964 32104 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 00:46:33,626 payment_term_service 24964 32104 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:36,337 payment_term_service 24964 19128 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 00:46:36,761 payment_term_service 24964 32104 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 09:24:50,508 middleware_django_tenants 24964 35820 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 09:24:50,508 middleware_django_tenants 24964 35820 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 09:24:50,509 payment_term_service 24964 35820 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 09:24:50,514 middleware_django_tenants 24964 35188 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 09:24:50,514 middleware_django_tenants 24964 35188 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 09:24:50,515 payment_term_service 24964 35188 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 09:24:52,889 payment_term_service 24964 35188 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 09:24:52,929 payment_term_service 24964 35820 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 09:24:53,747 middleware_django_tenants 24964 8588 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 09:24:53,747 middleware_django_tenants 24964 8588 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 09:24:53,748 payment_term_service 24964 8588 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 09:24:53,973 middleware_django_tenants 24964 14632 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 09:24:53,973 middleware_django_tenants 24964 14632 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+INFO 2025-07-30 09:24:53,974 payment_term_service 24964 14632 Cache miss pour les conditions de paiement du tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 09:24:56,126 payment_term_service 24964 8588 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+INFO 2025-07-30 09:24:56,454 payment_term_service 24964 14632 Récupération de 0 conditions de paiement pour le tenant cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f
+DEBUG 2025-07-30 10:15:48,472 cache_service 29468 24864 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:15:48,472 tenant_client 29468 24864 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:15:50,943 tenant_client 29468 24864 Erreur récupération numérotation quote pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/quote/
+INFO 2025-07-30 10:15:53,004 tenant_client 29468 24864 Config numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:15:53,004 cache_service 29468 24864 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:15:53,004 tenant_client 29468 24864 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:15:55,546 tenant_client 29468 24864 Erreur récupération numérotation invoice pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/invoice/
+INFO 2025-07-30 10:15:57,589 tenant_client 29468 24864 Config numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:15:57,589 cache_service 29468 24864 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:15:57,589 tenant_client 29468 24864 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:16:00,008 tenant_client 29468 24864 Erreur récupération numérotation credit_note pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/credit_note/
+INFO 2025-07-30 10:16:02,052 tenant_client 29468 24864 Config numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:16:27,901 cache_service 22532 16816 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:16:27,901 tenant_client 22532 16816 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:16:30,282 tenant_client 22532 16816 Erreur récupération numérotation quote pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/quote/
+INFO 2025-07-30 10:16:32,321 tenant_client 22532 16816 Config numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+WARNING 2025-07-30 10:16:32,321 number_service 22532 16816 Configuration fallback utilisée pour tenant 550e8400-e29b-41d4-a716-446655440000, type quote
+INFO 2025-07-30 10:16:32,613 number_service 22532 16816 Numéro généré : DEV-2025-001 pour tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:16:44,521 tenant_client 22352 37748 Connexion au tenant-service OK
+DEBUG 2025-07-30 10:16:44,521 cache_service 22352 37748 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:16:44,522 tenant_client 22352 37748 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:16:46,870 tenant_client 22352 37748 Erreur récupération numérotation quote pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/quote/
+INFO 2025-07-30 10:16:48,926 tenant_client 22352 37748 Config numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:16:48,926 cache_service 22352 37748 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:16:48,926 tenant_client 22352 37748 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:16:51,402 tenant_client 22352 37748 Erreur récupération numérotation invoice pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/invoice/
+INFO 2025-07-30 10:16:53,450 tenant_client 22352 37748 Config numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:16:53,450 cache_service 22352 37748 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:16:53,450 tenant_client 22352 37748 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:16:55,833 tenant_client 22352 37748 Erreur récupération numérotation credit_note pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/credit_note/
+INFO 2025-07-30 10:16:57,873 tenant_client 22352 37748 Config numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:25:35,458 cache_service 37392 33580 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:35,458 tenant_client 37392 33580 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:37,995 tenant_client 37392 33580 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:25:37,995 tenant_client 37392 33580 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+ERROR 2025-07-30 10:25:40,309 tenant_client 37392 33580 Erreur incrémentation compteur 3: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/3/increment/
+ERROR 2025-07-30 10:25:40,309 number_service 37392 33580 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:40,309 number_service 37392 33580 Numéro généré : DEV-2025-001 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:40,309 cache_service 37392 33580 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:40,309 tenant_client 37392 33580 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:42,824 tenant_client 37392 33580 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:25:42,825 tenant_client 37392 33580 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+ERROR 2025-07-30 10:25:44,889 tenant_client 37392 33580 Erreur incrémentation compteur 4: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/4/increment/
+ERROR 2025-07-30 10:25:44,890 number_service 37392 33580 Échec incrémentation compteur 4 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:44,890 number_service 37392 33580 Numéro généré : FAC-2025-001 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:44,890 cache_service 37392 33580 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:44,890 tenant_client 37392 33580 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:44,890 cache_service 37392 33580 Cache hit pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:44,890 tenant_client 37392 33580 Cache hit pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:25:44,890 cache_service 37392 33580 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:44,890 tenant_client 37392 33580 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:25:47,353 tenant_client 37392 33580 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:25:47,353 tenant_client 37392 33580 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:27:07,200 cache_service 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:07,201 tenant_client 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:09,627 tenant_client 2176 18084 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:09,627 tenant_client 2176 18084 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:27:12,056 cache_service 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:12,056 tenant_client 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:12,056 tenant_client 2176 18084 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:27:12,057 number_service 2176 18084 Numéro généré : DEV-2025-002 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:27:12,057 cache_service 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:12,057 tenant_client 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:14,487 tenant_client 2176 18084 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:14,487 tenant_client 2176 18084 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:27:16,890 cache_service 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:16,890 tenant_client 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:16,890 tenant_client 2176 18084 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:27:16,891 number_service 2176 18084 Numéro généré : DEV-2025-003 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:27:16,891 cache_service 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:16,891 tenant_client 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:19,280 tenant_client 2176 18084 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:19,281 tenant_client 2176 18084 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:27:21,696 cache_service 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:21,696 tenant_client 2176 18084 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:27:21,696 tenant_client 2176 18084 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:27:21,696 number_service 2176 18084 Numéro généré : DEV-2025-004 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:27:21,696 cache_service 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:21,697 tenant_client 2176 18084 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:24,073 tenant_client 2176 18084 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:24,074 tenant_client 2176 18084 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:27:24,074 cache_service 2176 18084 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:27:24,074 tenant_client 2176 18084 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:27:24,074 cache_service 2176 18084 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:24,074 tenant_client 2176 18084 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:26,546 tenant_client 2176 18084 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:26,546 tenant_client 2176 18084 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:27:26,546 cache_service 2176 18084 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:26,546 tenant_client 2176 18084 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:27:28,972 tenant_client 2176 18084 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:27:28,973 tenant_client 2176 18084 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:27:54,351 tenant_client 3324 24512 Connexion au tenant-service OK
+DEBUG 2025-07-30 10:27:54,351 cache_service 3324 24512 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:27:54,351 tenant_client 3324 24512 Cache miss pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:27:56,817 tenant_client 3324 24512 Erreur récupération numérotation quote pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/quote/
+INFO 2025-07-30 10:27:58,872 tenant_client 3324 24512 Config numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:27:58,872 cache_service 3324 24512 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:27:58,872 tenant_client 3324 24512 Cache miss pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:28:01,254 tenant_client 3324 24512 Erreur récupération numérotation invoice pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/invoice/
+INFO 2025-07-30 10:28:03,305 tenant_client 3324 24512 Config numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:28:03,305 cache_service 3324 24512 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+INFO 2025-07-30 10:28:03,305 tenant_client 3324 24512 Cache miss pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+ERROR 2025-07-30 10:28:05,814 tenant_client 3324 24512 Erreur récupération numérotation credit_note pour tenant 550e8400-e29b-41d4-a716-446655440000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/credit_note/
+INFO 2025-07-30 10:28:07,889 tenant_client 3324 24512 Config numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000 mise en cache
+DEBUG 2025-07-30 10:28:07,889 cache_service 3324 24512 Cache hit pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:07,889 tenant_client 3324 24512 Cache hit pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+WARNING 2025-07-30 10:28:07,889 number_service 3324 24512 Configuration fallback utilisée pour tenant 550e8400-e29b-41d4-a716-446655440000, type quote
+INFO 2025-07-30 10:28:08,436 number_service 3324 24512 Numéro généré : DEV-2025-001 pour tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 cache_service 3324 24512 Cache hit pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 tenant_client 3324 24512 Cache hit pour numérotation quote tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 cache_service 3324 24512 Cache hit pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 tenant_client 3324 24512 Cache hit pour numérotation invoice tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 cache_service 3324 24512 Cache hit pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:08,436 tenant_client 3324 24512 Cache hit pour numérotation credit_note tenant 550e8400-e29b-41d4-a716-446655440000
+DEBUG 2025-07-30 10:28:50,865 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:28:50,865 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:28:53,245 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:28:53,245 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:28:55,676 cache_service 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:28:55,676 tenant_client 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:28:55,676 tenant_client 29280 41976 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:28:55,676 number_service 29280 41976 Numéro généré : FAC-2025-001 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:28:55,676 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:28:55,676 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:28:58,229 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:28:58,229 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:29:00,665 cache_service 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:00,665 tenant_client 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:00,665 tenant_client 29280 41976 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:29:00,665 number_service 29280 41976 Numéro généré : FAC-2025-002 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:29:00,666 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:00,666 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:03,103 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:03,103 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:29:05,506 cache_service 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:05,506 tenant_client 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:05,506 tenant_client 29280 41976 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:29:05,506 number_service 29280 41976 Numéro généré : FAC-2025-003 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:29:05,506 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:05,506 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:07,923 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:07,923 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:29:10,360 cache_service 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:10,360 tenant_client 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:10,360 tenant_client 29280 41976 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:29:10,360 number_service 29280 41976 Numéro généré : FAC-2025-004 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:29:10,361 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:10,361 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:12,786 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:12,787 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:29:15,210 cache_service 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:15,210 tenant_client 29280 41976 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:29:15,210 tenant_client 29280 41976 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:29:15,210 number_service 29280 41976 Numéro généré : FAC-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:29:15,211 cache_service 29280 41976 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:15,211 tenant_client 29280 41976 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:17,656 tenant_client 29280 41976 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:17,656 tenant_client 29280 41976 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:29:17,656 cache_service 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:17,656 tenant_client 29280 41976 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:20,198 tenant_client 29280 41976 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:20,198 tenant_client 29280 41976 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:29:20,198 cache_service 29280 41976 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:20,198 tenant_client 29280 41976 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:29:22,740 tenant_client 29280 41976 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:29:22,776 tenant_client 29280 41976 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:33:17,501 cache_service 31764 28440 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:17,501 tenant_client 31764 28440 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:20,099 tenant_client 31764 28440 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:33:20,099 tenant_client 31764 28440 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+ERROR 2025-07-30 10:33:22,513 tenant_client 31764 28440 Erreur inattendue incrémentation compteur 3: type object 'TenantConfigCacheService' has no attribute '_get_tenant_cache_keys'
+ERROR 2025-07-30 10:33:22,513 number_service 31764 28440 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:22,513 number_service 31764 28440 Numéro généré : DEV-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:22,513 cache_service 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:22,514 tenant_client 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+ERROR 2025-07-30 10:33:24,933 tenant_client 31764 28440 Erreur inattendue incrémentation compteur 3: type object 'TenantConfigCacheService' has no attribute '_get_tenant_cache_keys'
+ERROR 2025-07-30 10:33:24,933 number_service 31764 28440 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:24,933 number_service 31764 28440 Numéro généré : DEV-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:24,933 cache_service 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:24,933 tenant_client 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+ERROR 2025-07-30 10:33:27,393 tenant_client 31764 28440 Erreur inattendue incrémentation compteur 3: type object 'TenantConfigCacheService' has no attribute '_get_tenant_cache_keys'
+ERROR 2025-07-30 10:33:27,394 number_service 31764 28440 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:27,394 number_service 31764 28440 Numéro généré : DEV-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:27,394 cache_service 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:27,394 tenant_client 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+ERROR 2025-07-30 10:33:29,832 tenant_client 31764 28440 Erreur inattendue incrémentation compteur 3: type object 'TenantConfigCacheService' has no attribute '_get_tenant_cache_keys'
+ERROR 2025-07-30 10:33:29,832 number_service 31764 28440 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:29,832 number_service 31764 28440 Numéro généré : DEV-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:29,832 cache_service 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:33:29,832 tenant_client 31764 28440 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+ERROR 2025-07-30 10:33:32,269 tenant_client 31764 28440 Erreur inattendue incrémentation compteur 3: type object 'TenantConfigCacheService' has no attribute '_get_tenant_cache_keys'
+ERROR 2025-07-30 10:33:32,269 number_service 31764 28440 Échec incrémentation compteur 3 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:33:32,269 number_service 31764 28440 Numéro généré : DEV-2025-005 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:35:16,069 cache_service 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:16,069 tenant_client 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:18,577 tenant_client 41152 42628 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:35:18,577 tenant_client 41152 42628 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:35:20,998 tenant_client 41152 42628 Compteur incrémenté: 4 -> 7
+INFO 2025-07-30 10:35:20,998 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:20,998 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:20,998 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:35:20,999 number_service 41152 42628 Numéro généré : FAC-2025-006 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:35:20,999 cache_service 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:20,999 tenant_client 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:23,421 tenant_client 41152 42628 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:35:23,422 tenant_client 41152 42628 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:35:25,846 tenant_client 41152 42628 Compteur incrémenté: 4 -> 8
+INFO 2025-07-30 10:35:25,846 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:25,846 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:25,847 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:35:25,847 number_service 41152 42628 Numéro généré : FAC-2025-007 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:35:25,847 cache_service 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:25,847 tenant_client 41152 42628 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:28,295 tenant_client 41152 42628 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:35:28,296 tenant_client 41152 42628 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:35:31,036 tenant_client 41152 42628 Compteur incrémenté: 4 -> 9
+INFO 2025-07-30 10:35:31,037 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:31,037 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:31,037 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:35:31,037 number_service 41152 42628 Numéro généré : FAC-2025-008 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:35:31,037 cache_service 41152 42628 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:31,037 tenant_client 41152 42628 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:35:33,531 tenant_client 41152 42628 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:35:33,531 tenant_client 41152 42628 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:35:36,011 tenant_client 41152 42628 Compteur incrémenté: 3 -> 11
+INFO 2025-07-30 10:35:36,012 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:36,012 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:35:36,012 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:35:38,451 tenant_client 41152 42628 Compteur incrémenté: 3 -> 12
+INFO 2025-07-30 10:35:38,451 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:35:38,451 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:35:38,451 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:35:40,891 tenant_client 41152 42628 Compteur incrémenté: 3 -> 13
+INFO 2025-07-30 10:35:40,891 cache_service 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:35:40,891 tenant_client 41152 42628 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:35:40,891 tenant_client 41152 42628 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:35:40,891 number_service 41152 42628 Génération optimisée: 3 numéros pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:05,707 tenant_client 17632 42660 Connexion au tenant-service OK
+DEBUG 2025-07-30 10:38:05,707 cache_service 17632 42660 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:05,707 tenant_client 17632 42660 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:08,216 tenant_client 17632 42660 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:08,217 tenant_client 17632 42660 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:08,217 cache_service 17632 42660 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:08,217 tenant_client 17632 42660 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:10,649 tenant_client 17632 42660 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:10,650 tenant_client 17632 42660 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:10,650 cache_service 17632 42660 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:10,650 tenant_client 17632 42660 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:13,013 tenant_client 17632 42660 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:13,013 tenant_client 17632 42660 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:38:26,342 tenant_client 38796 28956 Connexion au tenant-service OK
+DEBUG 2025-07-30 10:38:26,343 cache_service 38796 28956 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:26,343 tenant_client 38796 28956 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:28,772 tenant_client 38796 28956 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:28,773 tenant_client 38796 28956 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:28,773 cache_service 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:28,773 tenant_client 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:31,208 tenant_client 38796 28956 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:31,208 tenant_client 38796 28956 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:31,208 cache_service 38796 28956 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:31,208 tenant_client 38796 28956 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:33,621 tenant_client 38796 28956 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:33,621 tenant_client 38796 28956 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:33,621 cache_service 38796 28956 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:38:33,621 tenant_client 38796 28956 Cache hit pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:36,010 tenant_client 38796 28956 Compteur incrémenté: 3 -> 14
+INFO 2025-07-30 10:38:36,010 cache_service 38796 28956 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 3 clés supprimées
+INFO 2025-07-30 10:38:36,011 tenant_client 38796 28956 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 3 clés supprimées
+INFO 2025-07-30 10:38:36,011 tenant_client 38796 28956 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:38:36,011 number_service 38796 28956 Numéro généré : DEV-2025-013 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:38:36,011 cache_service 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:36,011 tenant_client 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:38,462 tenant_client 38796 28956 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:38,463 tenant_client 38796 28956 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:38:40,878 tenant_client 38796 28956 Compteur incrémenté: 4 -> 10
+INFO 2025-07-30 10:38:40,878 cache_service 38796 28956 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:38:40,878 tenant_client 38796 28956 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:38:40,878 tenant_client 38796 28956 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:38:40,878 number_service 38796 28956 Numéro généré : FAC-2025-009 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:38:40,878 cache_service 38796 28956 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:40,878 tenant_client 38796 28956 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:43,289 tenant_client 38796 28956 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:43,289 tenant_client 38796 28956 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:43,289 cache_service 38796 28956 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:43,290 tenant_client 38796 28956 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:45,701 tenant_client 38796 28956 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:45,701 tenant_client 38796 28956 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:45,702 cache_service 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:45,702 tenant_client 38796 28956 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:38:48,127 tenant_client 38796 28956 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:38:48,128 tenant_client 38796 28956 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:38:48,128 cache_service 38796 28956 Cache hit pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:38:48,128 tenant_client 38796 28956 Cache hit pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:44:32,680 cache_service 39400 2952 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:32,680 tenant_client 39400 2952 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:35,161 tenant_client 39400 2952 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:35,161 tenant_client 39400 2952 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:44:37,616 tenant_client 39400 2952 Compteur incrémenté: 3 -> 15
+INFO 2025-07-30 10:44:37,616 cache_service 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:37,616 tenant_client 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:37,616 tenant_client 39400 2952 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:44:40,028 tenant_client 39400 2952 Compteur incrémenté: 3 -> 16
+INFO 2025-07-30 10:44:40,028 cache_service 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:44:40,028 tenant_client 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:44:40,028 tenant_client 39400 2952 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:44:42,421 tenant_client 39400 2952 Compteur incrémenté: 3 -> 17
+INFO 2025-07-30 10:44:42,421 cache_service 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:44:42,421 tenant_client 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 0 clés supprimées
+INFO 2025-07-30 10:44:42,421 tenant_client 39400 2952 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:44:42,421 number_service 39400 2952 Génération optimisée: 3 numéros pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:44:42,421 cache_service 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:42,421 tenant_client 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:44,871 tenant_client 39400 2952 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:44,871 tenant_client 39400 2952 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:44:47,274 tenant_client 39400 2952 Compteur incrémenté: 4 -> 11
+INFO 2025-07-30 10:44:47,275 cache_service 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:47,275 tenant_client 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:47,275 tenant_client 39400 2952 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:44:47,275 number_service 39400 2952 Numéro généré : FAC-2025-010 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:44:47,275 cache_service 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:47,275 tenant_client 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:49,656 tenant_client 39400 2952 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:49,656 tenant_client 39400 2952 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:44:52,074 tenant_client 39400 2952 Compteur incrémenté: 4 -> 12
+INFO 2025-07-30 10:44:52,074 cache_service 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:52,074 tenant_client 39400 2952 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:44:52,075 tenant_client 39400 2952 Compteur incrémenté avec succès pour numbering 4
+INFO 2025-07-30 10:44:52,075 number_service 39400 2952 Numéro généré : FAC-2025-011 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:44:52,075 cache_service 39400 2952 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:52,076 tenant_client 39400 2952 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:54,766 tenant_client 39400 2952 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:54,766 tenant_client 39400 2952 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:44:54,766 cache_service 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:54,766 tenant_client 39400 2952 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:57,138 tenant_client 39400 2952 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:57,138 tenant_client 39400 2952 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:44:57,138 cache_service 39400 2952 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:57,139 tenant_client 39400 2952 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:44:59,542 tenant_client 39400 2952 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:44:59,542 tenant_client 39400 2952 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:44:59,542 cache_service 39400 2952 Cache hit pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:44:59,542 tenant_client 39400 2952 Cache hit pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:46:39,051 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:39,051 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:41,554 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:46:41,554 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:46:43,990 tenant_client 21628 12168 Compteur incrémenté: 3 -> 18
+INFO 2025-07-30 10:46:43,990 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:43,990 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:43,990 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:46:43,990 number_service 21628 12168 Numéro généré : DEV-2025-017 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:46:43,990 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:43,990 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:46,459 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:46:46,459 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:46:48,905 tenant_client 21628 12168 Compteur incrémenté: 3 -> 19
+INFO 2025-07-30 10:46:48,905 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:48,905 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:48,905 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:46:48,905 number_service 21628 12168 Numéro généré : DEV-2025-018 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:46:48,905 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:48,905 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:51,346 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:46:51,346 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:46:53,761 tenant_client 21628 12168 Compteur incrémenté: 3 -> 20
+INFO 2025-07-30 10:46:53,761 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:53,761 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:53,761 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:46:53,761 number_service 21628 12168 Numéro généré : DEV-2025-019 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:46:53,761 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:53,761 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:56,342 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:46:56,343 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:46:58,780 tenant_client 21628 12168 Compteur incrémenté: 3 -> 21
+INFO 2025-07-30 10:46:58,780 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:58,780 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:46:58,780 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:46:58,780 number_service 21628 12168 Numéro généré : DEV-2025-020 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:46:58,780 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:46:58,780 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:01,201 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:01,202 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:03,581 tenant_client 21628 12168 Compteur incrémenté: 3 -> 22
+INFO 2025-07-30 10:47:03,581 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:03,581 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:03,581 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:03,581 number_service 21628 12168 Numéro généré : DEV-2025-021 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:03,581 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:03,581 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:06,008 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:06,008 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:08,447 tenant_client 21628 12168 Compteur incrémenté: 3 -> 23
+INFO 2025-07-30 10:47:08,447 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:08,447 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:08,447 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:08,448 number_service 21628 12168 Numéro généré : DEV-2025-022 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:08,448 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:08,448 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:10,907 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:10,907 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:13,381 tenant_client 21628 12168 Compteur incrémenté: 3 -> 24
+INFO 2025-07-30 10:47:13,381 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:13,381 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:13,381 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:13,381 number_service 21628 12168 Numéro généré : DEV-2025-023 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:13,381 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:13,381 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:15,800 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:15,801 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:18,202 tenant_client 21628 12168 Compteur incrémenté: 3 -> 25
+INFO 2025-07-30 10:47:18,202 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:18,202 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:18,202 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:18,202 number_service 21628 12168 Numéro généré : DEV-2025-024 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:18,203 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:18,203 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:20,625 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:20,625 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:23,086 tenant_client 21628 12168 Compteur incrémenté: 3 -> 26
+INFO 2025-07-30 10:47:23,086 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:23,087 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:23,087 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:23,087 number_service 21628 12168 Numéro généré : DEV-2025-025 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:23,087 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:23,087 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:25,502 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:25,503 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 10:47:28,029 tenant_client 21628 12168 Compteur incrémenté: 3 -> 27
+INFO 2025-07-30 10:47:28,030 cache_service 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:28,030 tenant_client 21628 12168 Cache invalidé pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696: 1 clés supprimées
+INFO 2025-07-30 10:47:28,030 tenant_client 21628 12168 Compteur incrémenté avec succès pour numbering 3
+INFO 2025-07-30 10:47:28,030 number_service 21628 12168 Numéro généré : DEV-2025-026 pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+DEBUG 2025-07-30 10:47:28,030 cache_service 21628 12168 Cache miss pour numérotation quote tenant 00000000-0000-0000-0000-000000000000
+INFO 2025-07-30 10:47:28,030 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 00000000-0000-0000-0000-000000000000
+ERROR 2025-07-30 10:47:30,425 tenant_client 21628 12168 Erreur récupération numérotation quote pour tenant 00000000-0000-0000-0000-000000000000: 404 Client Error: Not Found for url: http://localhost:8001/api/tenants/document_numbering/quote/
+INFO 2025-07-30 10:47:32,469 tenant_client 21628 12168 Config numérotation quote tenant 00000000-0000-0000-0000-000000000000 mise en cache
+WARNING 2025-07-30 10:47:32,469 number_service 21628 12168 Configuration fallback utilisée pour tenant 00000000-0000-0000-0000-000000000000, type quote
+INFO 2025-07-30 10:47:33,013 number_service 21628 12168 Numéro généré : DEV-2025-001 pour tenant 00000000-0000-0000-0000-000000000000
+DEBUG 2025-07-30 10:47:33,031 cache_service 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:33,032 tenant_client 21628 12168 Cache miss pour numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:35,454 tenant_client 21628 12168 Config numérotation quote pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:35,454 tenant_client 21628 12168 Config numérotation quote tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:47:35,454 cache_service 21628 12168 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:35,454 tenant_client 21628 12168 Cache miss pour numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:37,881 tenant_client 21628 12168 Config numérotation invoice pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:37,881 tenant_client 21628 12168 Config numérotation invoice tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+DEBUG 2025-07-30 10:47:37,882 cache_service 21628 12168 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:37,882 tenant_client 21628 12168 Cache miss pour numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696
+INFO 2025-07-30 10:47:40,317 tenant_client 21628 12168 Config numérotation credit_note pour tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 récupérée
+INFO 2025-07-30 10:47:40,318 tenant_client 21628 12168 Config numérotation credit_note tenant 6065e7bd-be1a-4b27-b0de-2b13670f5696 mise en cache
+INFO 2025-07-30 11:29:24,634 middleware_django_tenants 41464 31556 Document - Création contrôlée du tenant: 2a2c61c3-a440-4236-bff9-21b6edb55472
+INFO 2025-07-30 11:29:47,978 middleware_django_tenants 41464 31556 Document - Tenant créé: Test Tenant (schema: tenant_test_tenant)
+DEBUG 2025-07-30 11:29:48,239 middleware_django_tenants 41464 31556 Document - Tenant activé: 2a2c61c3-a440-4236-bff9-21b6edb55472 (schema: tenant_test_tenant)
+DEBUG 2025-07-30 11:29:48,241 cache_service 41464 31556 Cache miss pour numérotation quote tenant 2a2c61c3-a440-4236-bff9-21b6edb55472
+INFO 2025-07-30 11:29:48,241 tenant_client 41464 31556 Cache miss pour numérotation quote tenant 2a2c61c3-a440-4236-bff9-21b6edb55472
+INFO 2025-07-30 11:29:50,680 tenant_client 41464 31556 Config numérotation quote pour tenant 2a2c61c3-a440-4236-bff9-21b6edb55472 récupérée
+INFO 2025-07-30 11:29:50,680 tenant_client 41464 31556 Config numérotation quote tenant 2a2c61c3-a440-4236-bff9-21b6edb55472 mise en cache
+DEBUG 2025-07-30 19:29:45,822 camel_case_middleware 41464 25060 Paramètres GET avant conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-07-30 19:29:45,829 camel_case_middleware 41464 25060 Paramètres GET après conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-07-30 19:29:49,034 middleware_django_tenants 41464 25060 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 19:29:49,035 middleware_django_tenants 41464 25060 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-07-30 19:29:49,804 camel_case_middleware 41464 10336 Paramètres GET avant conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-07-30 19:29:49,804 camel_case_middleware 41464 10336 Paramètres GET après conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-07-30 19:29:50,192 middleware_django_tenants 41464 10336 Document - Tenant trouvé: ETAO
+DEBUG 2025-07-30 19:29:50,192 middleware_django_tenants 41464 10336 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:29:22,494 camel_case_middleware 30484 32760 Paramètres GET avant conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-08-01 23:29:22,502 camel_case_middleware 30484 32760 Paramètres GET après conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-08-01 23:29:26,474 middleware_django_tenants 30484 32760 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:29:26,475 middleware_django_tenants 30484 32760 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:29:27,101 camel_case_middleware 30484 15392 Paramètres GET avant conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-08-01 23:29:27,102 camel_case_middleware 30484 15392 Paramètres GET après conversion: {'tier_id': 'ecb988ef-1683-4e9a-998b-e5e6a5b89354'}
+DEBUG 2025-08-01 23:29:27,422 middleware_django_tenants 30484 15392 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:29:27,422 middleware_django_tenants 30484 15392 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:29:58,626 camel_case_middleware 30484 42896 Paramètres GET avant conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-08-01 23:29:58,627 camel_case_middleware 30484 42896 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-08-01 23:29:58,976 middleware_django_tenants 30484 20984 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:29:58,976 middleware_django_tenants 30484 20984 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:29:58,986 middleware_django_tenants 30484 42896 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:29:58,987 middleware_django_tenants 30484 42896 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:29:59,565 camel_case_middleware 30484 45176 Paramètres GET avant conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-08-01 23:29:59,565 camel_case_middleware 30484 45176 Paramètres GET après conversion: {'page': '1', 'page_size': '20'}
+DEBUG 2025-08-01 23:29:59,894 middleware_django_tenants 30484 45176 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:29:59,894 middleware_django_tenants 30484 45176 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 23:30:01,948 middleware_django_tenants 30484 46892 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 23:30:01,948 middleware_django_tenants 30484 46892 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)

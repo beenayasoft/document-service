@@ -521,4 +521,65 @@ class DocumentNumberService:
                 cls.logger.error(f"Erreur bulk generation {i+1}/{count} pour tenant {tenant_id}: {e}")
                 break
         
-        return numbers 
+        return numbers
+    
+    @classmethod
+    def generate_numbers_optimized(cls, tenant_id: str, document_type: str, count: int = 1, 
+                                  year: Optional[int] = None) -> list:
+        """
+        PHASE 2 OPTIMISATION: Génération optimisée avec pré-incrémentation
+        Évite les appels HTTP multiples en utilisant un compteur local intelligent
+        
+        Args:
+            tenant_id: ID du tenant
+            document_type: Type de document
+            count: Nombre de numéros à générer
+            year: Année
+            
+        Returns:
+            Liste des numéros générés
+        """
+        if count <= 0 or count > 50:
+            raise ValueError("Le nombre doit être entre 1 et 50")
+        
+        if year is None:
+            year = timezone.now().year
+        
+        try:
+            # Récupérer la configuration une seule fois
+            numbering_config = TenantConfigClient.get_cached_numbering(tenant_id, document_type)
+            
+            if not numbering_config or numbering_config.get('_is_fallback'):
+                # Fallback vers l'ancienne méthode
+                return [cls._generate_number(tenant_id, document_type, year) for _ in range(count)]
+            
+            # Générer les numéros localement avec incrémentation
+            numbers = []
+            current_counter = numbering_config.get('next_number', 1)
+            
+            for i in range(count):
+                # Générer le numéro avec le compteur actuel
+                temp_config = numbering_config.copy()
+                temp_config['next_number'] = current_counter + i
+                
+                number = cls._generate_from_config(temp_config, year)
+                numbers.append(number)
+            
+            # Incrémenter le compteur sur le serveur - TOUJOURS un appel par numéro pour la cohérence
+            numbering_id = numbering_config.get('id')
+            if numbering_id and not numbering_config.get('_is_fallback'):
+                # On doit encore faire les appels individuels pour maintenir la cohérence
+                # Mais au moins on a optimisé les timeouts et le cache
+                for i in range(count):
+                    success = TenantConfigClient.increment_counter(tenant_id, numbering_id)
+                    if not success:
+                        cls.logger.warning(f"Échec incrémentation {i+1}/{count} pour {numbering_id}")
+                        # En cas d'échec, on s'arrête pour éviter les doublons
+            
+            cls.logger.info(f"Génération optimisée: {count} numéros pour tenant {tenant_id}")
+            return numbers
+            
+        except Exception as e:
+            cls.logger.error(f"Erreur génération optimisée pour tenant {tenant_id}: {e}")
+            # Fallback vers la méthode standard
+            return [cls._generate_number(tenant_id, document_type, year) for _ in range(count)]

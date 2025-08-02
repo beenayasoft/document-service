@@ -436,3 +436,75 @@ class CacheService:
         except Exception as e:
             logger.error(f"Erreur suppression cache pour clé {key}: {e}")
             return False
+    
+    @classmethod
+    def _get_tenant_cache_keys(cls, tenant_id: str) -> List[str]:
+        """
+        PHASE 2 OPTIMISATION: Récupère toutes les clés de cache pour un tenant
+        
+        Args:
+            tenant_id: ID du tenant
+            
+        Returns:
+            Liste des clés de cache pour ce tenant
+        """
+        # Django ne fournit pas de moyen natif de lister les clés
+        # Nous devons simuler avec les patterns connus
+        potential_keys = []
+        
+        # Clés de configuration générale
+        potential_keys.append(cls.get_config_key(tenant_id))
+        
+        # Clés de numérotation pour chaque type de document
+        document_types = ['quote', 'invoice', 'credit_note', 'order', 'delivery']
+        for doc_type in document_types:
+            potential_keys.append(cls.get_numbering_key(tenant_id, doc_type))
+        
+        # Clés de statistiques
+        potential_keys.append(f"{cls.STATS_PREFIX}_{tenant_id}")
+        potential_keys.append(f"{cls.HEALTH_PREFIX}_{tenant_id}")
+        
+        # Filtrer seulement celles qui existent vraiment
+        existing_keys = []
+        for key in potential_keys:
+            if cache.get(key) is not None:
+                existing_keys.append(key)
+        
+        return existing_keys
+    
+    @classmethod
+    def _get_from_cache(cls, cache_key: str) -> Optional[Dict[str, Any]]:
+        """
+        PHASE 2 OPTIMISATION: Récupère une valeur du cache
+        
+        Args:
+            cache_key: Clé de cache
+            
+        Returns:
+            Valeur du cache ou None
+        """
+        try:
+            return cache.get(cache_key)
+        except Exception as e:
+            logger.error(f"Erreur récupération cache {cache_key}: {e}")
+            return None
+    
+    @classmethod
+    def _set_to_cache(cls, cache_key: str, value: Dict[str, Any], timeout: Optional[int] = None) -> bool:
+        """
+        PHASE 2 OPTIMISATION: Met une valeur en cache
+        
+        Args:
+            cache_key: Clé de cache
+            value: Valeur à mettre en cache
+            timeout: Timeout optionnel
+            
+        Returns:
+            True si succès
+        """
+        try:
+            timeout = timeout or cls.DEFAULT_TIMEOUT
+            return cache.set(cache_key, value, timeout)
+        except Exception as e:
+            logger.error(f"Erreur mise en cache {cache_key}: {e}")
+            return False

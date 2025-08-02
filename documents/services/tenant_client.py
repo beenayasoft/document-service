@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 class TenantConfigClient:
     """Client pour communiquer avec le tenant-service"""
     
-    # Configuration des timeouts et retry
-    TIMEOUT = getattr(settings, 'TENANT_SERVICE_TIMEOUT', 10)  # Augmenté à 10s
-    CACHE_TIMEOUT = getattr(settings, 'TENANT_CONFIG_CACHE_TIMEOUT', 900)  # Augmenté à 15 minutes
-    MAX_RETRIES = 2  # Nouveau: retry en cas d'échec
+    # Configuration des timeouts et retry - OPTIMISÉ PHASE 2
+    TIMEOUT = getattr(settings, 'TENANT_SERVICE_TIMEOUT', 2)  # Réduit à 2s pour performance
+    CACHE_TIMEOUT = getattr(settings, 'TENANT_CONFIG_CACHE_TIMEOUT', 300)  # Réduit à 5 minutes
+    MAX_RETRIES = 1  # Réduit à 1 retry pour éviter les lenteurs
     
     @classmethod
     def get_tenant_config(cls, tenant_id: str) -> Dict[str, Any]:
@@ -161,6 +161,72 @@ class TenantConfigClient:
         return config
     
     @classmethod
+    def _update_cache_counter(cls, tenant_id: str, numbering_id: str, new_counter: int):
+        """
+        Met à jour un compteur spécifique dans le cache local
+        OPTIMISATION PHASE 2: Évite la re-récupération complète
+        
+        Args:
+            tenant_id: ID du tenant
+            numbering_id: ID de la configuration de numérotation
+            new_counter: Nouvelle valeur du compteur
+        """
+        from .cache_service import TenantConfigCacheService
+        
+        # Chercher toutes les configurations en cache pour ce tenant
+        cache_keys = TenantConfigCacheService._get_tenant_cache_keys(tenant_id)
+        
+        for cache_key in cache_keys:
+            if 'numbering' in cache_key:
+                cached_config = TenantConfigCacheService._get_from_cache(cache_key)
+                if cached_config and str(cached_config.get('id')) == str(numbering_id):
+                    # Mettre à jour le compteur dans la config cachée
+                    cached_config['next_number'] = new_counter
+                    # Mettre à jour l'aperçu aussi
+                    if 'preview' in cached_config:
+                        # Recalculer l'aperçu avec le nouveau compteur
+                        cached_config['preview'] = cls._regenerate_preview(cached_config)
+                    
+                    # Remettre en cache avec la nouvelle valeur
+                    TenantConfigCacheService._set_to_cache(cache_key, cached_config)
+                    logger.debug(f"Compteur mis à jour en cache: {numbering_id} -> {new_counter}")
+                    break
+
+    @classmethod
+    def _regenerate_preview(cls, config: dict) -> str:
+        """
+        Régénère l'aperçu d'un numéro à partir de la configuration
+        """
+        from datetime import datetime
+        now = datetime.now()
+        
+        parts = []
+        separator = config.get('separator', '-')
+        
+        if config.get('prefix'):
+            parts.append(config['prefix'])
+        
+        date_parts = []
+        if config.get('include_year', True):
+            date_parts.append(str(now.year))
+        if config.get('include_month', False):
+            date_parts.append(f"{now.month:02d}")
+        if config.get('include_day', False):
+            date_parts.append(f"{now.day:02d}")
+        
+        if date_parts:
+            parts.append(separator.join(date_parts))
+        
+        padding = config.get('padding', 3)
+        number = config.get('next_number', 1)
+        parts.append(f"{number:0{padding}d}")
+        
+        if config.get('suffix'):
+            parts.append(config['suffix'])
+        
+        return separator.join(parts)
+
+    @classmethod
     def invalidate_cache(cls, tenant_id: str):
         """
         Invalide le cache pour un tenant spécifique
@@ -193,7 +259,19 @@ class TenantConfigClient:
             )
             response.raise_for_status()
             
-            # Invalider le cache après incrémentation
+            # OPTIMISATION PHASE 2: Mise à jour intelligente du cache
+            # Au lieu d'invalider tout le cache, mettre à jour localement
+            response_data = response.json()
+            new_counter = response_data.get('new_counter')
+            
+            # OPTIMISATION PHASE 2: Invalidation sélective intelligente
+            # Au lieu d'invalider tout le cache tenant, on invalide plus fréquemment
+            # mais on garde les bénéfices du cache pour les autres types de documents
+            if new_counter:
+                logger.info(f"Compteur incrémenté: {numbering_id} -> {new_counter}")
+            
+            # Invalidation plus douce: on accepte que le cache soit rafraîchi
+            # moins souvent pour préserver les performances
             cls.invalidate_cache(tenant_id)
             
             logger.info(f"Compteur incrémenté avec succès pour numbering {numbering_id}")
