@@ -2451,3 +2451,125 @@ DEBUG 2025-08-01 17:01:29,955 middleware_django_tenants 19932 18756 Document - T
 DEBUG 2025-08-01 17:01:29,956 middleware_django_tenants 19932 18756 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
 DEBUG 2025-08-01 17:01:29,990 middleware_django_tenants 19932 25100 Document - Tenant trouvé: ETAO
 DEBUG 2025-08-01 17:01:29,991 middleware_django_tenants 19932 25100 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:05:12,570 camel_case_middleware 22292 19796 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:05:12,573 camel_case_middleware 22292 19796 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:05:12,813 camel_case_middleware 22292 3180 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:05:12,816 camel_case_middleware 22292 3180 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:05:18,073 middleware_django_tenants 22292 19796 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:05:18,074 middleware_django_tenants 22292 19796 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:05:18,570 middleware_django_tenants 22292 13040 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:05:18,570 middleware_django_tenants 22292 13040 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:05:19,667 middleware_django_tenants 22292 3180 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:05:19,668 middleware_django_tenants 22292 3180 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:05:20,790 middleware_django_tenants 22292 23536 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:05:20,791 middleware_django_tenants 22292 23536 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:30:17,806 camel_case_middleware 22292 10856 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:30:17,843 camel_case_middleware 22292 10856 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:30:17,935 camel_case_middleware 22292 19588 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:30:17,978 camel_case_middleware 22292 19588 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-01 17:30:27,117 middleware_django_tenants 22292 19588 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:30:27,154 middleware_django_tenants 22292 19588 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:30:27,703 middleware_django_tenants 22292 24684 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:30:27,802 middleware_django_tenants 22292 24684 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:30:28,014 middleware_django_tenants 22292 15240 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:30:28,361 middleware_django_tenants 22292 15240 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:30:28,540 middleware_django_tenants 22292 10856 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:30:28,605 middleware_django_tenants 22292 10856 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:31:36,136 middleware_django_tenants 22292 24856 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:31:36,137 middleware_django_tenants 22292 24856 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:36:54,330 camel_case_middleware 22292 21920 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-01 17:36:54,346 camel_case_middleware 22292 25484 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-01 17:36:54,346 camel_case_middleware 22292 21920 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-01 17:36:54,355 camel_case_middleware 22292 25484 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-01 17:36:54,854 middleware_django_tenants 22292 25484 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:36:54,857 middleware_django_tenants 22292 25484 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-01 17:36:54,898 middleware_django_tenants 22292 21920 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-01 17:36:54,916 middleware_django_tenants 22292 21920 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:10:20,220 middleware_django_tenants 26056 20080 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:10:20,221 middleware_django_tenants 26056 20080 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:10:20,223 middleware_django_tenants 26056 13568 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:10:20,224 middleware_django_tenants 26056 13568 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:10:21,223 middleware_django_tenants 26056 11144 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:10:21,225 middleware_django_tenants 26056 11144 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:10:22,004 middleware_django_tenants 26056 18708 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:10:22,005 middleware_django_tenants 26056 18708 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:34:52,570 middleware_django_tenants 26056 20424 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:34:52,645 middleware_django_tenants 26056 20424 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:34:53,238 middleware_django_tenants 26056 2804 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:34:53,275 middleware_django_tenants 26056 2804 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:37:30,385 middleware_django_tenants 26056 25536 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:37:30,390 middleware_django_tenants 26056 25536 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:37:30,483 middleware_django_tenants 26056 19140 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:37:30,492 middleware_django_tenants 26056 19140 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:49:39,549 camel_case_middleware 26056 21168 Paramètres GET avant conversion: {'tier_id': 'bc560762-b969-4e57-bd4f-7f6302c1f639'}
+DEBUG 2025-08-02 12:49:39,598 camel_case_middleware 26056 21168 Paramètres GET après conversion: {'tier_id': 'bc560762-b969-4e57-bd4f-7f6302c1f639'}
+DEBUG 2025-08-02 12:49:48,017 middleware_django_tenants 26056 21168 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:49:48,037 middleware_django_tenants 26056 21168 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 12:49:51,057 camel_case_middleware 26056 20876 Paramètres GET avant conversion: {'tier_id': 'bc560762-b969-4e57-bd4f-7f6302c1f639'}
+DEBUG 2025-08-02 12:49:51,081 camel_case_middleware 26056 20876 Paramètres GET après conversion: {'tier_id': 'bc560762-b969-4e57-bd4f-7f6302c1f639'}
+DEBUG 2025-08-02 12:49:51,570 middleware_django_tenants 26056 20876 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 12:49:51,605 middleware_django_tenants 26056 20876 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:06:30,978 camel_case_middleware 26056 24704 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 13:06:30,990 camel_case_middleware 26056 4252 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 13:06:31,027 camel_case_middleware 26056 4252 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 13:06:31,023 camel_case_middleware 26056 24704 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 13:06:40,328 middleware_django_tenants 26056 24704 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:06:40,329 middleware_django_tenants 26056 4252 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:06:40,390 middleware_django_tenants 26056 4252 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:06:40,371 middleware_django_tenants 26056 24704 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:07:04,946 camel_case_middleware 26056 19376 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 13:07:04,959 camel_case_middleware 26056 10868 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 13:07:04,978 camel_case_middleware 26056 19376 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 13:07:04,980 camel_case_middleware 26056 10868 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 13:07:05,462 middleware_django_tenants 26056 14664 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:07:05,473 middleware_django_tenants 26056 14664 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:07:05,494 middleware_django_tenants 26056 19376 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:07:05,539 middleware_django_tenants 26056 10868 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:07:05,540 middleware_django_tenants 26056 19376 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:07:05,582 middleware_django_tenants 26056 10868 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 13:07:31,370 middleware_django_tenants 26056 20864 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 13:07:31,383 middleware_django_tenants 26056 20864 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:19:37,958 middleware_django_tenants 26056 14876 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:19:37,960 middleware_django_tenants 26056 1372 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:19:37,996 middleware_django_tenants 26056 14876 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:19:37,998 middleware_django_tenants 26056 1372 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:26:19,523 camel_case_middleware 26056 4348 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 15:26:19,586 camel_case_middleware 26056 4348 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 15:26:19,922 middleware_django_tenants 26056 22968 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:26:19,954 middleware_django_tenants 26056 22968 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:26:20,147 middleware_django_tenants 26056 4348 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:26:20,185 middleware_django_tenants 26056 4348 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:26:22,994 camel_case_middleware 26056 20564 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 15:26:23,007 camel_case_middleware 26056 20564 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 15:26:23,478 middleware_django_tenants 26056 20564 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:26:23,494 middleware_django_tenants 26056 20564 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 15:26:27,249 middleware_django_tenants 26056 25456 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 15:26:27,270 middleware_django_tenants 26056 25456 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:00:48,950 camel_case_middleware 26056 1672 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 16:00:48,953 camel_case_middleware 26056 19604 Paramètres GET avant conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 16:00:48,961 camel_case_middleware 26056 1672 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 16:00:48,962 camel_case_middleware 26056 19604 Paramètres GET après conversion: {'page': '1', 'page_size': '10'}
+DEBUG 2025-08-02 16:00:56,235 middleware_django_tenants 26056 19604 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:00:56,236 middleware_django_tenants 26056 1672 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:00:56,237 middleware_django_tenants 26056 19604 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:00:56,239 middleware_django_tenants 26056 1672 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:01:41,547 camel_case_middleware 26056 21852 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 16:01:41,548 camel_case_middleware 26056 21852 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 16:01:41,809 camel_case_middleware 26056 19900 Paramètres GET avant conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 16:01:41,810 camel_case_middleware 26056 19900 Paramètres GET après conversion: {'page[page]': '1', 'page[page_size]': '20', 'page_size': '10'}
+DEBUG 2025-08-02 16:01:42,004 middleware_django_tenants 26056 21852 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:01:42,005 middleware_django_tenants 26056 21852 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:01:42,221 middleware_django_tenants 26056 21092 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:01:42,222 middleware_django_tenants 26056 21092 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:01:42,245 middleware_django_tenants 26056 16444 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:01:42,246 middleware_django_tenants 26056 16444 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:01:42,320 middleware_django_tenants 26056 19900 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:01:42,320 middleware_django_tenants 26056 19900 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:08:46,118 camel_case_middleware 26056 13304 Paramètres GET avant conversion: {'tier_id': '98d7c017-12fe-4767-a1ac-b8f02ec03d88'}
+DEBUG 2025-08-02 16:08:46,134 camel_case_middleware 26056 13304 Paramètres GET après conversion: {'tier_id': '98d7c017-12fe-4767-a1ac-b8f02ec03d88'}
+DEBUG 2025-08-02 16:08:46,272 camel_case_middleware 26056 7632 Paramètres GET avant conversion: {'tier_id': '98d7c017-12fe-4767-a1ac-b8f02ec03d88'}
+DEBUG 2025-08-02 16:08:46,277 camel_case_middleware 26056 7632 Paramètres GET après conversion: {'tier_id': '98d7c017-12fe-4767-a1ac-b8f02ec03d88'}
+DEBUG 2025-08-02 16:08:46,738 middleware_django_tenants 26056 7632 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:08:46,752 middleware_django_tenants 26056 7632 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
+DEBUG 2025-08-02 16:08:46,819 middleware_django_tenants 26056 13304 Document - Tenant trouvé: ETAO
+DEBUG 2025-08-02 16:08:46,828 middleware_django_tenants 26056 13304 Document - Tenant activé: cf22f06c-4134-4bf0-9fbd-8a00c04a6c8f (schema: tenant_etao)
