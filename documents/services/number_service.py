@@ -149,22 +149,62 @@ class DocumentNumberService:
     @classmethod
     def _generate_custom_format(cls, config: Dict[str, Any], now: datetime) -> str:
         """
-        Génère un numéro selon un format personnalisé
+        Génère un numéro selon un format personnalisé - Méthode ultra-robuste
         """
-        format_vars = {
-            'prefix': config.get('prefix', ''),
-            'year': now.year,
-            'month': f"{now.month:02d}",
-            'day': f"{now.day:02d}",
-            'number': f"{config.get('next_number', 1):0{config.get('padding', 3)}d}",
-            'suffix': config.get('suffix', '')
+        import re
+        
+        # Récupérer le format personnalisé
+        custom_format = config.get('custom_format', '')
+        cls.logger.info(f"🔍 FORMAT D'ENTRÉE: '{custom_format}'")
+        
+        # Si pas de format personnalisé, utiliser standard
+        if not custom_format:
+            cls.logger.warning("Pas de custom_format, utilisation du format standard")
+            return cls._generate_standard_format(config, now)
+        
+        # Mapping des variables avec logs détaillés
+        next_num = config.get('next_number', 1)
+        padding = config.get('padding', 4)
+        
+        variable_map = {
+            'AAAA': str(now.year),
+            'AA': str(now.year)[-2:],
+            'MM': f"{now.month:02d}",
+            'DD': f"{now.day:02d}",
+            'XXXX': f"{next_num:0{padding}d}",
+            'XXX': f"{next_num:03d}",
+            'XX': f"{next_num:02d}",
         }
         
-        try:
-            return config['custom_format'].format(**format_vars)
-        except (KeyError, ValueError) as e:
-            cls.logger.warning(f"Erreur format personnalisé, fallback vers standard: {e}")
+        cls.logger.info(f"📊 VARIABLES: next_number={next_num}, padding={padding}")
+        cls.logger.info(f"📊 MAPPING: {variable_map}")
+        
+        # Méthode 1: Remplacement simple et robuste (plus fiable que regex)
+        result = custom_format
+        
+        for placeholder, value in variable_map.items():
+            old_result = result
+            result = result.replace(f'{{{placeholder}}}', value)
+            if old_result != result:
+                cls.logger.info(f"✅ REMPLACÉ: {{{placeholder}}} → {value}")
+        
+        cls.logger.info(f"🎯 TRANSFORMATION: '{custom_format}' → '{result}'")
+        
+        # Vérification de sécurité : s'assurer qu'il n'y a plus de {}
+        if '{' in result and '}' in result:
+            cls.logger.error(f"❌ VARIABLES NON REMPLACÉES RESTANTES: {result}")
+            # Nettoyage des variables non remplacées
+            import re
+            result = re.sub(r'\{[^}]+\}', '', result)
+            cls.logger.warning(f"🧹 APRÈS NETTOYAGE: {result}")
+        
+        # Si le résultat est vide ou invalide, fallback
+        if not result or result == custom_format:
+            cls.logger.error("❌ ÉCHEC DU FORMATAGE, utilisation du fallback")
             return cls._generate_standard_format(config, now)
+        
+        cls.logger.info(f"✅ SUCCÈS: Numéro généré = '{result}'")
+        return result
     
     @classmethod
     def _generate_standard_format(cls, config: Dict[str, Any], now: datetime) -> str:

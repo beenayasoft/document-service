@@ -236,7 +236,7 @@ class RelatedDocumentMixin:
         if hasattr(obj, 'quote_id') and obj.quote_id:
             # Appel interne au service documents pour récupérer le devis
             try:
-                from ..models import Quote
+                from .models import Quote
                 quote = Quote.objects.get(id=obj.quote_id)
                 return {
                     'id': str(obj.quote_id),

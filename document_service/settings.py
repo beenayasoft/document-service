@@ -25,7 +25,10 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,document-se
 # Configuration des services SOA
 CRM_SERVICE_URL = config('CRM_SERVICE_URL', default='http://localhost:8003')
 AUTH_SERVICE_URL = config('AUTH_SERVICE_URL', default='http://localhost:8001')
-TENANT_SERVICE_URL = config('TENANT_SERVICE_URL', default='http://localhost:8002')
+OPPORTUNITY_SERVICE_URL = config('OPPORTUNITY_SERVICE_URL', default='http://localhost:8002')
+# URL pour communiquer avec les autres services via l'API Gateway
+API_GATEWAY_URL = config('API_GATEWAY_URL', default='http://localhost:8000')
+TENANT_SERVICE_URL = config('TENANT_SERVICE_URL', default=f'{API_GATEWAY_URL}')
 
 
 # Application definition

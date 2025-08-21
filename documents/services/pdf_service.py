@@ -17,6 +17,7 @@ from decimal import Decimal
 
 from .calculation_service import CalculationService
 from .company_info_service import company_info_service
+from .tenant_appearance_service import tenant_appearance_service
 
 logger = logging.getLogger(__name__)
 
@@ -43,71 +44,115 @@ class DocumentPDFService:
         # Récupérer le tenant_id depuis le document si non fourni
         self.tenant_id = tenant_id or getattr(document, 'tenant_id', None)
         
-        # Configuration des styles
+        # Récupérer les paramètres d'apparence du tenant
+        self.appearance_settings = self._get_appearance_settings()
+        
+        # Configuration des styles avec les paramètres d'apparence
         self._setup_styles()
         
         # Configuration spécifique par type - maintenant dynamique
         self.company_info = self._get_company_info()
     
+    def _get_appearance_settings(self) -> Dict[str, Any]:
+        """
+        Récupère les paramètres d'apparence du tenant
+        
+        Returns:
+            Dict contenant les paramètres d'apparence
+        """
+        if not self.tenant_id:
+            logger.warning("Aucun tenant_id disponible, utilisation des paramètres par défaut")
+            return tenant_appearance_service._get_default_appearance_settings()
+        
+        try:
+            # Récupérer les paramètres d'apparence depuis le tenant-service
+            appearance_data = tenant_appearance_service.get_document_appearance(self.tenant_id)
+            return tenant_appearance_service.convert_to_pdf_appearance(appearance_data)
+        except Exception as e:
+            logger.error(f"Erreur lors de la récupération des paramètres d'apparence: {str(e)}")
+            return tenant_appearance_service._get_default_appearance_settings()
+    
     def _setup_styles(self):
-        """Configure les styles de document"""
+        """Configure les styles de document avec les paramètres d'apparence"""
         self.styles = getSampleStyleSheet()
+        
+        # Récupérer les paramètres de style depuis l'apparence
+        font_size = self.appearance_settings.get('font_size', 10)
+        font_family = self.appearance_settings.get('font_family', 'Inter')
+        line_spacing = self.appearance_settings.get('line_spacing', 1.4)
+        primary_color = self.appearance_settings.get('primary_color', '#1B333F')
+        
+        # Mapper les polices web vers les polices PDF
+        font_mapping = {
+            'Inter': 'Helvetica',
+            'Arial': 'Helvetica',
+            'Times New Roman': 'Times-Roman',
+            'Georgia': 'Times-Roman',
+            'Helvetica': 'Helvetica',
+            'Courier': 'Courier'
+        }
+        pdf_font = font_mapping.get(font_family, 'Helvetica')
         
         # Style titre principal
         self.title_style = ParagraphStyle(
             'TitleStyle',
             parent=self.styles['Heading1'],
-            fontSize=16,
-            leading=20,
+            fontSize=font_size + 6,
+            leading=(font_size + 6) * line_spacing,
             alignment=1,  # Centré
             spaceAfter=20,
-            fontName='Helvetica-Bold'
+            fontName=f'{pdf_font}-Bold',
+            textColor=colors.toColor(primary_color)
         )
         
         # Style sous-titre
         self.subtitle_style = ParagraphStyle(
             'SubtitleStyle',
             parent=self.styles['Heading2'],
-            fontSize=14,
-            leading=16,
+            fontSize=font_size + 4,
+            leading=(font_size + 4) * line_spacing,
             spaceAfter=12,
-            fontName='Helvetica-Bold'
+            fontName=f'{pdf_font}-Bold',
+            textColor=colors.toColor(primary_color)
         )
         
         # Style section
         self.section_style = ParagraphStyle(
             'SectionStyle',
             parent=self.styles['Heading3'],
-            fontSize=12,
-            leading=14,
+            fontSize=font_size + 2,
+            leading=(font_size + 2) * line_spacing,
             spaceAfter=8,
             spaceBefore=16,
-            fontName='Helvetica-Bold'
+            fontName=f'{pdf_font}-Bold',
+            textColor=colors.toColor(primary_color)
         )
         
         # Style normal
         self.normal_style = ParagraphStyle(
             'NormalStyle',
             parent=self.styles['Normal'],
-            fontSize=10,
-            leading=12
+            fontSize=font_size,
+            leading=font_size * line_spacing,
+            fontName=pdf_font
         )
         
         # Style pour les totaux
         self.total_style = ParagraphStyle(
             'TotalStyle',
             parent=self.styles['Normal'],
-            fontSize=11,
-            leading=13,
-            fontName='Helvetica-Bold'
+            fontSize=font_size + 1,
+            leading=(font_size + 1) * line_spacing,
+            fontName=f'{pdf_font}-Bold'
         )
         
         # Style pour les informations client
         self.client_style = ParagraphStyle(
             'ClientStyle',
             parent=self.styles['Normal'],
-            fontSize=10,
-            leading=12
+            fontSize=font_size,
+            leading=font_size * line_spacing,
+            fontName=pdf_font
         )
     
     def _get_company_info(self) -> Dict[str, str]:
@@ -182,14 +227,20 @@ class DocumentPDFService:
         Returns:
             Buffer contenant le PDF
         """
-        # Créer le document PDF
+        # Utiliser les marges depuis les paramètres d'apparence
+        margin_top_mm = self.appearance_settings.get('margin_top', 25)
+        margin_right_mm = self.appearance_settings.get('margin_right', 20)
+        margin_bottom_mm = self.appearance_settings.get('margin_bottom', 25)
+        margin_left_mm = self.appearance_settings.get('margin_left', 20)
+        
+        # Créer le document PDF avec marges personnalisées
         doc = SimpleDocTemplate(
             self.buffer,
             pagesize=A4,
-            rightMargin=2*cm,
-            leftMargin=2*cm,
-            topMargin=3*cm,
-            bottomMargin=2*cm
+            rightMargin=margin_right_mm*mm,
+            leftMargin=margin_left_mm*mm,
+            topMargin=margin_top_mm*mm,
+            bottomMargin=margin_bottom_mm*mm
         )
         
         # Construire le contenu
@@ -242,24 +293,45 @@ class DocumentPDFService:
         canvas_obj.restoreState()
     
     def _draw_header(self, canvas_obj, doc):
-        """Dessine l'en-tête de page"""
-        # Logo (si disponible)
-        # logo_path = os.path.join(settings.MEDIA_ROOT, 'logo.png')
-        # if os.path.exists(logo_path):
-        #     canvas_obj.drawImage(logo_path, 1*cm, self.height - 2.5*cm, 
-        #                         width=4*cm, height=1.5*cm)
+        """Dessine l'en-tête de page avec les paramètres d'apparence"""
+        primary_color = colors.toColor(self.appearance_settings.get('primary_color', '#1B333F'))
+        show_logo = self.appearance_settings.get('show_logo', True)
+        show_company_name = self.appearance_settings.get('show_company_name', True)
+        show_company_address = self.appearance_settings.get('show_company_address', True)
+        show_company_phone = self.appearance_settings.get('show_company_phone', True)
+        show_company_email = self.appearance_settings.get('show_company_email', True)
         
-        # Informations entreprise
-        canvas_obj.setFont('Helvetica-Bold', 12)
-        canvas_obj.drawString(1*cm, self.height - 1.5*cm, self.company_info['name'])
+        # Logo (si activé et disponible)
+        if show_logo:
+            # Note: L'implémentation du logo pourra être ajoutée plus tard
+            # logo_path = self.company_info.get('logo_url') or self.company_info.get('logo_base64')
+            pass
+        
+        # Informations entreprise (si activées)
+        y_pos = self.height - 1.5*cm
+        
+        if show_company_name:
+            canvas_obj.setFont('Helvetica-Bold', 12)
+            canvas_obj.setFillColor(primary_color)
+            canvas_obj.drawString(1*cm, y_pos, self.company_info['name'])
+            y_pos -= 0.4*cm
         
         canvas_obj.setFont('Helvetica', 9)
-        y_pos = self.height - 1.8*cm
-        for info in [self.company_info['address'], self.company_info['city'], 
-                    f"Tél: {self.company_info['phone']}", 
-                    f"Email: {self.company_info['email']}"]:
-            canvas_obj.drawString(1*cm, y_pos, info)
+        canvas_obj.setFillColor(colors.black)
+        
+        if show_company_address and self.company_info.get('address'):
+            canvas_obj.drawString(1*cm, y_pos, self.company_info['address'])
             y_pos -= 0.3*cm
+            if self.company_info.get('city'):
+                canvas_obj.drawString(1*cm, y_pos, self.company_info['city'])
+                y_pos -= 0.3*cm
+        
+        if show_company_phone and self.company_info.get('phone'):
+            canvas_obj.drawString(1*cm, y_pos, f"Tél: {self.company_info['phone']}")
+            y_pos -= 0.3*cm
+        
+        if show_company_email and self.company_info.get('email'):
+            canvas_obj.drawString(1*cm, y_pos, f"Email: {self.company_info['email']}")
         
         # Informations document (côté droit)
         document_title = "DEVIS" if self.document_type == 'quote' else "FACTURE"
@@ -267,10 +339,12 @@ class DocumentPDFService:
             document_title = "AVOIR"
         
         canvas_obj.setFont('Helvetica-Bold', 14)
+        canvas_obj.setFillColor(primary_color)
         canvas_obj.drawString(self.width - 5*cm, self.height - 1.5*cm, 
                              f"{document_title} N° {self.document.number}")
         
         canvas_obj.setFont('Helvetica', 10)
+        canvas_obj.setFillColor(colors.black)
         canvas_obj.drawString(self.width - 5*cm, self.height - 1.8*cm, 
                              f"Date: {self.document.issue_date.strftime('%d/%m/%Y')}")
         
@@ -283,15 +357,34 @@ class DocumentPDFService:
                                  f"Validité: {self.document.expiry_date.strftime('%d/%m/%Y')}")
     
     def _draw_footer(self, canvas_obj, doc):
-        """Dessine le pied de page"""
-        # Mentions légales
-        canvas_obj.setFont('Helvetica', 8)
-        canvas_obj.drawString(1*cm, 1.5*cm, 
-                             f"SIRET: {self.company_info['siret']} - ICE: {self.company_info['ice']}")
+        """Dessine le pied de page avec les paramètres d'apparence"""
+        show_legal_mentions = self.appearance_settings.get('show_legal_mentions', True)
+        show_company_siret = self.appearance_settings.get('show_company_siret', True)
+        show_payment_terms = self.appearance_settings.get('show_payment_terms', True)
+        primary_color = colors.toColor(self.appearance_settings.get('primary_color', '#1B333F'))
         
-        # Conditions de paiement
-        payment_terms = getattr(self.document, 'terms_and_conditions', '') or "Voir conditions générales"
-        canvas_obj.drawString(1*cm, 1.2*cm, f"Conditions: {payment_terms}")
+        canvas_obj.setFont('Helvetica', 8)
+        y_pos = 1.5*cm
+        
+        # Mentions légales (si activées)
+        if show_legal_mentions and show_company_siret:
+            legal_info = []
+            if self.company_info.get('siret'):
+                legal_info.append(f"SIRET: {self.company_info['siret']}")
+            if self.company_info.get('ice'):
+                legal_info.append(f"ICE: {self.company_info['ice']}")
+            
+            if legal_info:
+                canvas_obj.drawString(1*cm, y_pos, " - ".join(legal_info))
+                y_pos -= 0.3*cm
+        
+        # Conditions de paiement (si activées)
+        if show_payment_terms:
+            payment_terms = getattr(self.document, 'terms_and_conditions', '') or "Voir conditions générales"
+            canvas_obj.setFillColor(primary_color)
+            canvas_obj.drawString(1*cm, y_pos, "Conditions:")
+            canvas_obj.setFillColor(colors.black)
+            canvas_obj.drawString(2.5*cm, y_pos, payment_terms)
         
         # Numéro de page
         canvas_obj.setFont('Helvetica', 9)
@@ -303,14 +396,19 @@ class DocumentPDFService:
         elements.append(Spacer(1, 2*cm))  # Espace pour l'en-tête de page
     
     def _add_client_info(self, elements):
-        """Ajoute les informations client"""
+        """Ajoute les informations client selon les paramètres d'apparence"""
+        show_client_address = self.appearance_settings.get('show_client_address', True)
+        
+        if not show_client_address:
+            return
+        
         elements.append(Paragraph("CLIENT", self.section_style))
         
         client_data = [
             [Paragraph(f"<b>{self.document.client_name}</b>", self.client_style)]
         ]
         
-        if self.document.client_address:
+        if self.document.client_address and show_client_address:
             for line in self.document.client_address.strip().split('\n'):
                 if line.strip():
                     client_data.append([Paragraph(line.strip(), self.client_style)])
@@ -328,7 +426,12 @@ class DocumentPDFService:
         elements.append(Spacer(1, 0.5*cm))
     
     def _add_project_info(self, elements):
-        """Ajoute les informations projet"""
+        """Ajoute les informations projet selon les paramètres d'apparence"""
+        show_project_info = self.appearance_settings.get('show_project_info', True)
+        
+        if not show_project_info or not self.document.project_name:
+            return
+        
         elements.append(Paragraph("PROJET", self.section_style))
         
         project_data = [
@@ -401,31 +504,62 @@ class DocumentPDFService:
         # Créer le tableau
         items_table = Table(table_data, colWidths=col_widths, repeatRows=1)
         
-        # Style du tableau
+        # Style du tableau avec paramètres d'apparence
+        primary_color = colors.toColor(self.appearance_settings.get('primary_color', '#1B333F'))
+        table_header_color = colors.toColor(self.appearance_settings.get('table_header_color', '#f8f9fa'))
+        table_border_color = colors.toColor(self.appearance_settings.get('table_border_color', '#dee2e6'))
+        table_border_width = self.appearance_settings.get('table_border_width', 1)
+        table_border_horizontal = self.appearance_settings.get('table_border_horizontal', True)
+        table_border_vertical = self.appearance_settings.get('table_border_vertical', True)
+        table_row_padding = self.appearance_settings.get('table_row_padding', 8)
+        section_contrast = self.appearance_settings.get('section_contrast', True)
+        section_contrast_color = colors.toColor(self.appearance_settings.get('section_contrast_color', '#f8f9fa'))
+        
         style_list = [
-            # En-tête
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            # En-tête avec couleur personnalisée
+            ('BACKGROUND', (0, 0), (-1, 0), primary_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
             ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 10),
+            ('FONTSIZE', (0, 0), (-1, 0), int(self.appearance_settings.get('font_size', 10))),
             
             # Corps du tableau
             ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 1), (-1, -1), 9),
+            ('FONTSIZE', (0, 1), (-1, -1), int(self.appearance_settings.get('font_size', 10)) - 1),
             ('ALIGN', (1, 1), (-1, -1), 'CENTER'),  # Centrer sauf première colonne
             ('ALIGN', (0, 1), (0, -1), 'LEFT'),     # Première colonne à gauche
             
-            # Bordures
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             
-            # Espacement
-            ('TOPPADDING', (0, 0), (-1, -1), 6),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+            # Espacement personnalisé
+            ('TOPPADDING', (0, 0), (-1, -1), table_row_padding),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), table_row_padding),
+            ('LEFTPADDING', (0, 0), (-1, -1), table_row_padding),
+            ('RIGHTPADDING', (0, 0), (-1, -1), table_row_padding),
         ]
+        
+        # Ajouter les bordures selon les paramètres
+        if table_border_horizontal and table_border_vertical:
+            # Grille complète
+            style_list.append(('GRID', (0, 0), (-1, -1), table_border_width, table_border_color))
+        elif table_border_horizontal:
+            # Bordures horizontales seulement
+            for i in range(len(table_data)):
+                style_list.append(('LINEBELOW', (0, i), (-1, i), table_border_width, table_border_color))
+        elif table_border_vertical:
+            # Bordures verticales seulement
+            for i in range(len(headers) - 1):
+                style_list.append(('LINEAFTER', (i, 0), (i, -1), table_border_width, table_border_color))
+        
+        # Ajouter les couleurs alternées pour les sections si activées
+        if section_contrast:
+            row_num = 1  # Commencer après l'en-tête
+            for item in items:
+                if item.type in ['chapter', 'section']:
+                    style_list.append(('BACKGROUND', (0, row_num), (-1, row_num), section_contrast_color))
+                    style_list.append(('TEXTCOLOR', (0, row_num), (-1, row_num), primary_color))
+                    style_list.append(('FONTNAME', (0, row_num), (-1, row_num), 'Helvetica-Bold'))
+                row_num += 1
         
         items_table.setStyle(TableStyle(style_list))
         elements.append(items_table)
@@ -471,13 +605,16 @@ class DocumentPDFService:
         elements.append(Spacer(1, 1*cm))
     
     def _add_notes_and_conditions(self, elements):
-        """Ajoute les notes et conditions"""
-        if self.document.notes:
+        """Ajoute les notes et conditions selon les paramètres d'apparence"""
+        show_notes = self.appearance_settings.get('show_notes', True)
+        show_payment_terms = self.appearance_settings.get('show_payment_terms', True)
+        
+        if show_notes and self.document.notes:
             elements.append(Paragraph("NOTES", self.section_style))
             elements.append(Paragraph(self.document.notes, self.normal_style))
             elements.append(Spacer(1, 0.5*cm))
         
-        if self.document.terms_and_conditions:
+        if show_payment_terms and self.document.terms_and_conditions:
             elements.append(Paragraph("CONDITIONS GÉNÉRALES", self.section_style))
             elements.append(Paragraph(self.document.terms_and_conditions, self.normal_style))
             elements.append(Spacer(1, 0.5*cm))

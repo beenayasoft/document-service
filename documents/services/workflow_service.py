@@ -173,6 +173,8 @@ class WorkflowService:
             metadata['rejection_reason'] = note
             message = "Devis rejeté par le client"
             
+            # TODO: Déclencher la mise à jour de l'opportunité vers "perdue" si configuré
+            
         elif target_status == QuoteStatus.EXPIRED:
             quote.status = QuoteStatus.EXPIRED
             metadata['expired_date'] = timezone.now()
@@ -202,7 +204,12 @@ class WorkflowService:
             # Générer le numéro définitif si c'était un brouillon
             if invoice.number == "Brouillon":
                 from .number_service import DocumentNumberService
-                invoice.number = DocumentNumberService.generate_invoice_number()
+                # Utiliser tenant_id si fourni en paramètre, sinon fallback
+                if hasattr(self, 'tenant_id') and self.tenant_id:
+                    invoice.number = DocumentNumberService.generate_invoice_number(self.tenant_id)
+                else:
+                    # Fallback vers l'ancien système
+                    invoice.number = DocumentNumberService._generate_fallback_number('invoice', timezone.now().year)
             
             message = "Facture validée et envoyée"
             
