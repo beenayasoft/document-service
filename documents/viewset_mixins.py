@@ -265,16 +265,39 @@ class DocumentActionMixin:
         if tenant_id:
             instance._tenant_id = tenant_id
         
+        # Récupérer les données d'email depuis la request
+        recipient_email = getattr(self.request, 'data', {}).get('recipient_email', '')
+        custom_message = getattr(self.request, 'data', {}).get('message', note)
+        
         if hasattr(instance, 'mark_as_sent'):
-            instance.mark_as_sent()
+            instance.mark_as_sent(
+                recipient_email=recipient_email,
+                custom_message=custom_message,
+                tenant_id=tenant_id
+            )
         elif hasattr(instance, 'validate_and_send'):
-            instance.validate_and_send(tenant_id=tenant_id)
+            instance.validate_and_send(
+                tenant_id=tenant_id,
+                recipient_email=recipient_email,
+                custom_message=custom_message
+            )
         else:
             # Fallback générique
             instance.status = 'sent'
             instance.save(update_fields=['status'])
         
-        return {'message': 'Document envoyé avec succès', 'status': instance.status}
+        if recipient_email:
+            return {
+                'message': f'Document envoyé avec succès à {recipient_email}',
+                'status': instance.status,
+                'recipient': recipient_email
+            }
+        else:
+            return {
+                'message': 'Document marqué comme envoyé',
+                'status': instance.status,
+                'note': 'Aucun email spécifié - statut mis à jour uniquement'
+            }
     
     def _accept_document(self, instance, note=None):
         """Accepte un document (principalement pour les devis) et met à jour l'opportunité"""
@@ -379,41 +402,19 @@ class ExportMixin:
     """Mixin pour l'export de documents"""
     
     def export_document(self, instance, format_type='pdf', include_details=True):
-        """Exporte un document dans le format spécifié"""
-        from ..services.pdf_service import PDFService
-        
-        if format_type == 'pdf':
-            return self._export_pdf(instance, include_details)
-        elif format_type == 'excel':
-            return self._export_excel(instance, include_details)
-        elif format_type == 'csv':
-            return self._export_csv(instance, include_details)
-        else:
-            return Response(
-                {'error': 'Format non supporté'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        """Exporte un document dans le format spécifié - FONCTIONNALITÉ SUPPRIMÉE"""
+        return Response({
+            'error': 'Export PDF temporairement désactivé - en cours de refonte',
+            'document_id': str(instance.id),
+            'available_formats': []
+        }, status=status.HTTP_501_NOT_IMPLEMENTED)
     
     def _export_pdf(self, instance, include_details):
-        """Export PDF avec génération réelle"""
-        from ..services.pdf_service import PDFService
-        from django.http import HttpResponse
-        
-        try:
-            # Générer le PDF avec support tenant
-            pdf_service = PDFService.from_request(self.request)
-            pdf_buffer = pdf_service.generate_document_pdf(instance, include_details)
-            
-            # Préparer la réponse HTTP
-            response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="{instance.number}.pdf"'
-            return response
-            
-        except Exception as e:
-            return Response({
-                'error': f'Erreur lors de la génération du PDF: {str(e)}',
-                'document_id': str(instance.id)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        """Export PDF - SUPPRIMÉ"""
+        return Response({
+            'error': 'Export PDF temporairement désactivé - en cours de refonte',
+            'document_id': str(instance.id)
+        }, status=status.HTTP_501_NOT_IMPLEMENTED)
     
     def _export_excel(self, instance, include_details):
         """Export Excel - À implémenter"""

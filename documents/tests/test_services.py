@@ -7,8 +7,9 @@ from django.test import TestCase
 from django.core.files.base import ContentFile
 from documents.tests.fixtures import DocumentTestCase, fixtures, data_builder
 from documents.services import (
-    CalculationService, WorkflowService, NumberService, PDFService
+    CalculationService, WorkflowService, DocumentNumberService  # PDFService supprimé
 )
+# from documents.services import PDFService  # SUPPRIMÉ
 from documents.models import Quote, Invoice, QuoteItem
 
 
@@ -347,114 +348,114 @@ class NumberServiceTest(DocumentTestCase):
             )
 
 
-class PDFServiceTest(DocumentTestCase):
-    """Tests du service de génération PDF."""
+# class PDFServiceTest(DocumentTestCase):  # SUPPRIMÉ - Service PDF supprimé
+#     """Tests du service de génération PDF."""
+#     
+#     def setUp(self):
+#         super().setUp()
+#         self.pdf_service = PDFService()
     
-    def setUp(self):
-        super().setUp()
-        self.pdf_service = PDFService()
+#     def test_generate_quote_pdf(self):  # SUPPRIMÉ
+#         """Test génération PDF d'un devis."""
+#         quote = data_builder.reset()\
+#             .with_quote_data(
+#                 quote_number='DEV-PDF-001',
+#                 client_name='PDF Test Client'
+#             )\
+#             .with_multiple_items(3)\
+#             .build_quote(self.user, self.vat_rate, self.quote_status)
+#         
+#         pdf_content = self.pdf_service.generate_quote_pdf(quote)
+#         
+#         # Vérifications basiques
+#         self.assertIsInstance(pdf_content, bytes)
+#         self.assertTrue(len(pdf_content) > 1000)  # PDF non vide
+#         
+#         # Vérifier que c'est bien un PDF
+#         self.assertTrue(pdf_content.startswith(b'%PDF'))
     
-    def test_generate_quote_pdf(self):
-        """Test génération PDF d'un devis."""
-        quote = data_builder.reset()\
-            .with_quote_data(
-                quote_number='DEV-PDF-001',
-                client_name='PDF Test Client'
-            )\
-            .with_multiple_items(3)\
-            .build_quote(self.user, self.vat_rate, self.quote_status)
-        
-        pdf_content = self.pdf_service.generate_quote_pdf(quote)
-        
-        # Vérifications basiques
-        self.assertIsInstance(pdf_content, bytes)
-        self.assertTrue(len(pdf_content) > 1000)  # PDF non vide
-        
-        # Vérifier que c'est bien un PDF
-        self.assertTrue(pdf_content.startswith(b'%PDF'))
+#     def test_generate_invoice_pdf(self):  # SUPPRIMÉ
+#         """Test génération PDF d'une facture."""
+#         invoice = data_builder.reset()\
+#             .with_invoice_data(
+#                 invoice_number='FAC-PDF-001',
+#                 client_name='PDF Test Client'
+#             )\
+#             .with_multiple_items(2)\
+#             .build_invoice(self.user, self.vat_rate, self.invoice_status)
+#         
+#         pdf_content = self.pdf_service.generate_invoice_pdf(invoice)
+#         
+#         self.assertIsInstance(pdf_content, bytes)
+#         self.assertTrue(len(pdf_content) > 1000)
+#         self.assertTrue(pdf_content.startswith(b'%PDF'))
     
-    def test_generate_invoice_pdf(self):
-        """Test génération PDF d'une facture."""
-        invoice = data_builder.reset()\
-            .with_invoice_data(
-                invoice_number='FAC-PDF-001',
-                client_name='PDF Test Client'
-            )\
-            .with_multiple_items(2)\
-            .build_invoice(self.user, self.vat_rate, self.invoice_status)
-        
-        pdf_content = self.pdf_service.generate_invoice_pdf(invoice)
-        
-        self.assertIsInstance(pdf_content, bytes)
-        self.assertTrue(len(pdf_content) > 1000)
-        self.assertTrue(pdf_content.startswith(b'%PDF'))
+#     def test_pdf_content_includes_data(self):  # SUPPRIMÉ
+#         """Test que le PDF contient les données du document."""
+#         quote = fixtures.create_quote(
+#             self.user, self.vat_rate, self.quote_status,
+#             quote_number='DEV-CONTENT-001',
+#             client_name='Content Test Client'
+#         )
+#         
+#         pdf_content = self.pdf_service.generate_quote_pdf(quote)
+#         
+#         # Convertir en string pour vérifier le contenu
+#         # (Dans un vrai test, on utiliserait un parser PDF)
+#         pdf_str = pdf_content.decode('latin-1', errors='ignore')
+#         
+#         # Vérifier que certaines données sont présentes
+#         self.assertIn('DEV-CONTENT-001', pdf_str)
+#         self.assertIn('Content Test Client', pdf_str)
     
-    def test_pdf_content_includes_data(self):
-        """Test que le PDF contient les données du document."""
-        quote = fixtures.create_quote(
-            self.user, self.vat_rate, self.quote_status,
-            quote_number='DEV-CONTENT-001',
-            client_name='Content Test Client'
-        )
-        
-        pdf_content = self.pdf_service.generate_quote_pdf(quote)
-        
-        # Convertir en string pour vérifier le contenu
-        # (Dans un vrai test, on utiliserait un parser PDF)
-        pdf_str = pdf_content.decode('latin-1', errors='ignore')
-        
-        # Vérifier que certaines données sont présentes
-        self.assertIn('DEV-CONTENT-001', pdf_str)
-        self.assertIn('Content Test Client', pdf_str)
+#     def test_pdf_with_company_logo(self):  # SUPPRIMÉ
+#         """Test PDF avec logo de l'entreprise."""
+#         quote = fixtures.create_quote(
+#             self.user, self.vat_rate, self.quote_status
+#         )
+#         
+#         # Simuler un logo (fichier factice)
+#         logo_file = ContentFile(b'fake-logo-content', name='logo.png')
+#         
+#         pdf_content = self.pdf_service.generate_quote_pdf(
+#             quote, logo=logo_file
+#         )
+#         
+#         self.assertIsInstance(pdf_content, bytes)
+#         self.assertTrue(len(pdf_content) > 1000)
     
-    def test_pdf_with_company_logo(self):
-        """Test PDF avec logo de l'entreprise."""
-        quote = fixtures.create_quote(
-            self.user, self.vat_rate, self.quote_status
-        )
-        
-        # Simuler un logo (fichier factice)
-        logo_file = ContentFile(b'fake-logo-content', name='logo.png')
-        
-        pdf_content = self.pdf_service.generate_quote_pdf(
-            quote, logo=logo_file
-        )
-        
-        self.assertIsInstance(pdf_content, bytes)
-        self.assertTrue(len(pdf_content) > 1000)
+#     def test_pdf_template_selection(self):  # SUPPRIMÉ
+#         """Test sélection de template PDF."""
+#         quote = fixtures.create_quote(
+#             self.user, self.vat_rate, self.quote_status
+#         )
+#         
+#         # Test avec template par défaut
+#         pdf_default = self.pdf_service.generate_quote_pdf(quote)
+#         
+#         # Test avec template personnalisé
+#         pdf_custom = self.pdf_service.generate_quote_pdf(
+#             quote, template='custom_quote_template.html'
+#         )
+#         
+#         # Les PDFs doivent être différents
+#         self.assertNotEqual(pdf_default, pdf_custom)
     
-    def test_pdf_template_selection(self):
-        """Test sélection de template PDF."""
-        quote = fixtures.create_quote(
-            self.user, self.vat_rate, self.quote_status
-        )
-        
-        # Test avec template par défaut
-        pdf_default = self.pdf_service.generate_quote_pdf(quote)
-        
-        # Test avec template personnalisé
-        pdf_custom = self.pdf_service.generate_quote_pdf(
-            quote, template='custom_quote_template.html'
-        )
-        
-        # Les PDFs doivent être différents
-        self.assertNotEqual(pdf_default, pdf_custom)
-    
-    def test_pdf_error_handling(self):
-        """Test gestion des erreurs PDF."""
-        # Test avec un document invalide (None)
-        with self.assertRaises(ValueError):
-            self.pdf_service.generate_quote_pdf(None)
-        
-        # Test avec template inexistant
-        quote = fixtures.create_quote(
-            self.user, self.vat_rate, self.quote_status
-        )
-        
-        with self.assertRaises(Exception):
-            self.pdf_service.generate_quote_pdf(
-                quote, template='nonexistent_template.html'
-            )
+#     def test_pdf_error_handling(self):  # SUPPRIMÉ
+#         """Test gestion des erreurs PDF."""
+#         # Test avec un document invalide (None)
+#         with self.assertRaises(ValueError):
+#             self.pdf_service.generate_quote_pdf(None)
+#         
+#         # Test avec template inexistant
+#         quote = fixtures.create_quote(
+#             self.user, self.vat_rate, self.quote_status
+#         )
+#         
+#         with self.assertRaises(Exception):
+#             self.pdf_service.generate_quote_pdf(
+#                 quote, template='nonexistent_template.html'
+#             )
 
 
 class ServiceIntegrationTest(DocumentTestCase):
@@ -464,8 +465,8 @@ class ServiceIntegrationTest(DocumentTestCase):
         """Test cycle de vie complet d'un devis avec tous les services."""
         calculation_service = CalculationService()
         workflow_service = WorkflowService()
-        number_service = NumberService()
-        pdf_service = PDFService()
+        number_service = DocumentNumberService()  # Corrigé le nom
+        # pdf_service = PDFService()  # SUPPRIMÉ
         
         # 1. Générer un numéro
         quote_number = number_service.generate_quote_number()
@@ -504,8 +505,8 @@ class ServiceIntegrationTest(DocumentTestCase):
         workflow_service.transition_status(quote, sent_status, self.user)
         result = workflow_service.validate_quote(quote, self.user)
         
-        # 6. Générer le PDF
-        pdf_content = pdf_service.generate_quote_pdf(quote)
+        # 6. Générer le PDF - SUPPRIMÉ
+        # pdf_content = pdf_service.generate_quote_pdf(quote)
         
         # 7. Convertir en facture
         invoice_number = number_service.generate_invoice_number()
@@ -515,7 +516,7 @@ class ServiceIntegrationTest(DocumentTestCase):
         
         # Vérifications finales
         self.assertTrue(result['success'])
-        self.assertIsNotNone(pdf_content)
+        # self.assertIsNotNone(pdf_content)  # SUPPRIMÉ
         self.assertIsInstance(invoice, Invoice)
         self.assertEqual(invoice.quote, quote)
         self.assertEqual(quote.subtotal, Decimal('1070.00'))  # (2*300*0.95) + 500

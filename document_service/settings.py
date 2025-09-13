@@ -1,11 +1,15 @@
 """
-Django settings for Document Service avec schémas séparés
+Django settings for Document Service with separate schemas
 """
 
 import os
 from pathlib import Path
 from decouple import config
 from corsheaders.defaults import default_headers
+
+# Force le chemin vers le fichier .env
+BASE_DIR = Path(__file__).resolve().parent.parent
+config = config # Utiliser la config par défaut qui cherche .env dans BASE_DIR
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -199,6 +203,21 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Tenant-ID',
 ]
+
+# Configuration Email avec Brevo (Sendinblue)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('BREVO_EMAIL', default='')
+EMAIL_HOST_PASSWORD = config('BREVO_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# Configuration pour les emails en développement (optionnel)
+if DEBUG and not EMAIL_HOST_USER:
+    # En développement, utiliser la console si Brevo n'est pas configuré
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Cache Redis
 CACHES = {

@@ -1,0 +1,43 @@
+# Dépendances pour la génération PDF - Phase 2
+# Installation: pip install -r requirements_pdf.txt
+
+# Générateur PDF principal
+weasyprint>=60.0
+# Alternatives et dépendances WeasyPrint
+cairocffi>=1.6.0
+cffi>=1.16.0
+cssselect2>=0.7.0
+fonttools>=4.43.0
+html5lib>=1.1
+Pillow>=10.0.0
+pyphen>=0.14.0
+tinycss2>=1.2.1
+
+# Générateur PDF de fallback (optionnel)
+playwright>=1.40.0
+# Note: Après installation, exécuter: playwright install chromium
+
+# Performance et monitoring
+psutil>=5.9.0  # Monitoring mémoire (optionnel)
+
+# Optimisations PDF avancées (optionnelles)
+PyPDF2>=3.0.1  # Manipulation PDF post-génération
+reportlab>=4.0.0  # Alternative pure Python
+
+# Gestion d'images améliorée
+wand>=0.6.13  # ImageMagick binding (optionnel)
+
+# Polices et typographie  
+# Note: fontconfig est un package système, pas Python
+# Sur Linux: sudo apt-get install libfontconfig1-dev
+# Sur macOS: brew install fontconfig
+
+# Note: Sur Windows, WeasyPrint peut nécessiter:
+# - Microsoft Visual C++ Redistributable
+# - GTK+ runtime (pour certaines fonctionnalités)
+
+# Sur Ubuntu/Debian, installer les paquets système:
+# sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+
+# Sur macOS avec Homebrew:
+# brew install cairo pango gdk-pixbuf libffi

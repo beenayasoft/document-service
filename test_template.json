@@ -1,0 +1,111 @@
+{
+  "id": "test-quote-template",
+  "name": "Quote Test Template",
+  "document_type": "quote", 
+  "description": "Template de test pour devis",
+  "page_settings": {
+    "format": "A4",
+    "margins": {
+      "top": "2cm",
+      "right": "2cm", 
+      "bottom": "2cm",
+      "left": "2cm"
+    },
+    "header_height": "3cm",
+    "footer_height": "2cm"
+  },
+  "styles": {
+    "colors": {
+      "primary": "#2563eb",
+      "secondary": "#64748b",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "error": "#ef4444",
+      "text": "#1f2937",
+      "background": "#ffffff"
+    },
+    "fonts": {
+      "primary": {
+        "family": "Inter, sans-serif",
+        "weights": [400, 500, 600, 700]
+      },
+      "secondary": {
+        "family": "Georgia, serif", 
+        "weights": [400, 700]
+      }
+    },
+    "spacing": {
+      "xs": "0.25rem",
+      "sm": "0.5rem",
+      "md": "1rem", 
+      "lg": "1.5rem",
+      "xl": "2rem"
+    }
+  },
+  "regions": {
+    "header": {
+      "components": [
+        {
+          "type": "Logo",
+          "props": {
+            "size": "medium"
+          }
+        }
+      ]
+    },
+    "body": {
+      "components": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": ["Description", "Quantity", "Price HT"],
+            "data": []
+          }
+        }
+      ]
+    },
+    "footer": {
+      "components": [
+        {
+          "type": "Text",
+          "props": {
+            "content": "Thank you for your trust"
+          }
+        }
+      ]
+    }
+  },
+  "template_data": {
+    "header": {
+      "components": [
+        {
+          "type": "Logo",
+          "props": {
+            "size": "medium"
+          }
+        }
+      ]
+    },
+    "body": {
+      "components": [
+        {
+          "type": "Table", 
+          "props": {
+            "columns": ["Description", "Quantity", "Price HT"],
+            "data": []
+          }
+        }
+      ]
+    },
+    "footer": {
+      "components": [
+        {
+          "type": "Text",
+          "props": {
+            "content": "Thank you for your trust"
+          }
+        }
+      ]
+    }
+  }
+}

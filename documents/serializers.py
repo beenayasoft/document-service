@@ -216,10 +216,16 @@ class QuoteCreateSerializer(QuoteSerializer):
         return value
     
     def to_internal_value(self, data):
-        """Override pour logger les données reçues"""
+        """Override pour logger les données reçues et gérer l'édition"""
         import logging
         logger = logging.getLogger(__name__)
         logger.info(f"QuoteCreateSerializer - Données brutes reçues: {data}")
+        
+        # Si on n'a pas de number et qu'on est en mode édition (instance existe), on l'utilise
+        if 'number' not in data and hasattr(self, 'instance') and self.instance:
+            data = data.copy() if hasattr(data, 'copy') else dict(data)
+            data['number'] = self.instance.number
+            logger.info(f"QuoteCreateSerializer - Ajout du number depuis l'instance: {data['number']}")
         
         try:
             result = super().to_internal_value(data)
@@ -393,6 +399,72 @@ class QuoteCreateSerializer(QuoteSerializer):
             
             item.total_ht = Decimal('0')
             item.total_ttc = Decimal('0')
+    
+    def update(self, instance, validated_data):
+        """Mettre à jour un devis avec ses éléments"""
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        logger.info(f"QuoteCreateSerializer.update - Mise à jour devis {instance.id}")
+        logger.info(f"QuoteCreateSerializer.update - Données reçues: {validated_data}")
+        
+        items_data = validated_data.pop('items', [])
+        logger.info(f"QuoteCreateSerializer.update - Items à mettre à jour: {len(items_data)}")
+        
+        # Récupérer le tenant_id depuis le contexte
+        request = self.context.get('request')
+        tenant_id = getattr(request, 'tenant_id', None) if request else None
+        logger.info(f"QuoteCreateSerializer.update - Tenant ID: {tenant_id}")
+        
+        # Mettre à jour les champs du devis
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Supprimer tous les items existants et recréer
+        old_items_count = instance.items.count()
+        instance.items.all().delete()
+        logger.info(f"QuoteCreateSerializer.update - {old_items_count} items existants supprimés")
+        
+        # Créer les nouveaux items
+        for item_data in items_data:
+            logger.info(f"QuoteCreateSerializer.update - Création item: {item_data}")
+            
+            item = QuoteItem(quote=instance, **item_data)
+            
+            # Calculer les totaux si ce n'est pas un chapitre/section
+            if item.type not in ["chapter", "section"]:
+                logger.info(f"💰 Calcul totaux pour: {item.designation} (Qté: {item.quantity}, PU: {item.unit_price}, Remise: {item.discount}%)")
+                # Calcul simple pour la mise à jour
+                quantity = Decimal(str(item.quantity or 0))
+                unit_price = Decimal(str(item.unit_price or 0))
+                discount = Decimal(str(item.discount or 0))
+                vat_rate = Decimal(str(item.vat_rate or 0))
+                
+                base_total = quantity * unit_price
+                discount_amount = base_total * discount / Decimal('100')
+                total_ht = base_total - discount_amount
+                vat_amount = total_ht * vat_rate / Decimal('100')
+                total_ttc = total_ht + vat_amount
+                
+                item.total_ht = total_ht
+                item.total_ttc = total_ttc
+                logger.info(f"💰 Résultat calcul: Total HT = {item.total_ht}, Total TTC = {item.total_ttc}")
+            
+            # Sauvegarder l'item
+            item.save(tenant_id=tenant_id, skip_document_update=True)
+            
+            # Recharger pour vérifier
+            item.refresh_from_db()
+            logger.info(f"✅ Item sauvegardé: {item.designation} - Total HT DB: {item.total_ht}, Total TTC DB: {item.total_ttc}")
+        
+        # Mettre à jour les totaux du devis
+        instance.update_totals(tenant_id=tenant_id)
+        instance.refresh_from_db()
+        
+        logger.info(f"✅ Devis mis à jour avec succès: {instance.id} - {len(items_data)} éléments")
+        
+        return instance
 
 
 # =============================================================================
@@ -698,6 +770,26 @@ class DocumentActionSerializer(CamelCaseResponseMixin, serializers.Serializer):
         required=False, 
         help_text="Note optionnelle pour l'action"
     )
+
+
+class DocumentSendSerializer(CamelCaseResponseMixin, serializers.Serializer):
+    """Serializer spécifique pour l'envoi de documents par email"""
+    
+    recipient_email = serializers.EmailField(
+        help_text="Email du destinataire"
+    )
+    message = serializers.CharField(
+        max_length=1000,
+        required=False,
+        allow_blank=True,
+        help_text="Message personnalisé à inclure dans l'email"
+    )
+    
+    def validate_recipient_email(self, value):
+        """Valide l'email du destinataire"""
+        if not value or not value.strip():
+            raise serializers.ValidationError("L'email du destinataire est requis")
+        return value.strip().lower()
 
 
 class RecordPaymentSerializer(CamelCaseResponseMixin, serializers.Serializer, DocumentValidationMixin):

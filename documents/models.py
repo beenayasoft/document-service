@@ -438,16 +438,14 @@ class Quote(BaseDocument):
     def _get_tenant_currency(self):
         """Récupère la devise du tenant depuis le cache ou fallback"""
         try:
-            from .services.tenant_client import TenantConfigClient
+            from shared.tenant_currency_client import TenantCurrencyClient
             # Essayer de récupérer depuis le contexte de la requête
             tenant_id = getattr(self, '_tenant_id', None)
             if tenant_id:
-                config = TenantConfigClient.get_cached_config(tenant_id)
-                if config and 'settings' in config:
-                    return config['settings'].get('currency', 'MAD')
+                return TenantCurrencyClient.get_currency_symbol(tenant_id)
         except Exception:
             pass
-        return 'MAD'  # Fallback
+        return TenantCurrencyClient.DEFAULT_CONFIG['currency_symbol']  # Fallback dynamique
     
     @property
     def client_id(self):
@@ -455,8 +453,15 @@ class Quote(BaseDocument):
         # Maintenant, le client_id est implicite via le schéma tenant
         return getattr(self, '_client_id', None)
     
-    def mark_as_sent(self):
-        """Marque le devis comme envoyé et met à jour l'opportunité associée"""
+    def mark_as_sent(self, recipient_email: str = None, custom_message: str = None, tenant_id: str = None):
+        """
+        Marque le devis comme envoyé, met à jour l'opportunité et envoie l'email
+        
+        Args:
+            recipient_email: Email du destinataire (optionnel si pas d'envoi)
+            custom_message: Message personnalisé pour l'email
+            tenant_id: ID du tenant pour la personnalisation
+        """
         # Générer le numéro si c'est un brouillon
         if self.status == QuoteStatus.DRAFT and self.number == "Brouillon":
             from .services.number_service import DocumentNumberService
@@ -464,6 +469,24 @@ class Quote(BaseDocument):
         
         self.status = QuoteStatus.SENT
         self.save(update_fields=['status', 'number'])
+        
+        # Envoyer l'email si un destinataire est spécifié
+        if recipient_email:
+            from .services.email_service import EmailService
+            email_result = EmailService.send_quote_email(
+                quote=self,
+                recipient_email=recipient_email,
+                message=custom_message,
+                tenant_id=tenant_id
+            )
+            
+            # Log du résultat d'envoi
+            import logging
+            logger = logging.getLogger(__name__)
+            if email_result['success']:
+                logger.info(f"Email envoyé avec succès pour le devis {self.number} à {recipient_email}")
+            else:
+                logger.error(f"Échec d'envoi email pour le devis {self.number}: {email_result['message']}")
         
         # Mettre à jour l'opportunité associée vers le statut "négociation"
         if self.opportunity_id:
@@ -673,7 +696,16 @@ class QuoteItem(BaseDocumentItem):
         ]
     
     def __str__(self):
-        return f"{self.designation} - {self.total_ht} €"
+        try:
+            from shared.tenant_currency_client import TenantCurrencyClient
+            tenant_id = getattr(self, '_tenant_id', None)
+            if tenant_id:
+                currency_symbol = TenantCurrencyClient.get_currency_symbol(tenant_id)
+            else:
+                currency_symbol = TenantCurrencyClient.DEFAULT_CONFIG['currency_symbol']
+            return f"{self.designation} - {self.total_ht} {currency_symbol}"
+        except:
+            return f"{self.designation} - {self.total_ht} DH"
 
 
 # =============================================================================
@@ -789,7 +821,16 @@ class Invoice(BaseDocument):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.number} - {self.client_name} - {self.total_ttc} €"
+        try:
+            from shared.tenant_currency_client import TenantCurrencyClient
+            tenant_id = getattr(self, '_tenant_id', None)
+            if tenant_id:
+                currency_symbol = TenantCurrencyClient.get_currency_symbol(tenant_id)
+            else:
+                currency_symbol = TenantCurrencyClient.DEFAULT_CONFIG['currency_symbol']
+            return f"{self.number} - {self.client_name} - {self.total_ttc} {currency_symbol}"
+        except:
+            return f"{self.number} - {self.client_name} - {self.total_ttc} DH"
     
     @property
     def client_id(self):
@@ -797,8 +838,15 @@ class Invoice(BaseDocument):
         # Maintenant, le client_id est implicite via le schéma tenant
         return getattr(self, '_client_id', None)
     
-    def validate_and_send(self, tenant_id=None):
-        """Valide et envoie la facture"""
+    def validate_and_send(self, tenant_id=None, recipient_email: str = None, custom_message: str = None):
+        """
+        Valide et envoie la facture
+        
+        Args:
+            tenant_id: ID du tenant pour la personnalisation
+            recipient_email: Email du destinataire (optionnel si pas d'envoi)
+            custom_message: Message personnalisé pour l'email
+        """
         if self.status == InvoiceStatus.DRAFT:
             # Générer le numéro si c'est un brouillon
             if self.number == "Brouillon":
@@ -811,6 +859,24 @@ class Invoice(BaseDocument):
         
         self.status = InvoiceStatus.SENT
         self.save(update_fields=['status', 'number'])
+        
+        # Envoyer l'email si un destinataire est spécifié
+        if recipient_email:
+            from .services.email_service import EmailService
+            email_result = EmailService.send_invoice_email(
+                invoice=self,
+                recipient_email=recipient_email,
+                message=custom_message,
+                tenant_id=tenant_id
+            )
+            
+            # Log du résultat d'envoi
+            import logging
+            logger = logging.getLogger(__name__)
+            if email_result['success']:
+                logger.info(f"Email envoyé avec succès pour la facture {self.number} à {recipient_email}")
+            else:
+                logger.error(f"Échec d'envoi email pour la facture {self.number}: {email_result['message']}")
     
     def record_payment(self, amount, method, date=None, reference=None, notes=None):
         """Enregistre un paiement"""
@@ -965,7 +1031,16 @@ class InvoiceItem(BaseDocumentItem):
         ]
     
     def __str__(self):
-        return f"{self.designation} - {self.total_ht} €"
+        try:
+            from shared.tenant_currency_client import TenantCurrencyClient
+            tenant_id = getattr(self, '_tenant_id', None)
+            if tenant_id:
+                currency_symbol = TenantCurrencyClient.get_currency_symbol(tenant_id)
+            else:
+                currency_symbol = TenantCurrencyClient.DEFAULT_CONFIG['currency_symbol']
+            return f"{self.designation} - {self.total_ht} {currency_symbol}"
+        except:
+            return f"{self.designation} - {self.total_ht} DH"
 
 
 # =============================================================================
@@ -1007,4 +1082,14 @@ class Payment(models.Model):
         ]
     
     def __str__(self):
-        return f"{self.amount} € - {self.date} - {self.invoice.number}"
+        try:
+            from shared.tenant_currency_client import TenantCurrencyClient
+            # Pour Payment, récupérer tenant_id via l'invoice
+            tenant_id = getattr(self.invoice, '_tenant_id', None) if hasattr(self, 'invoice') else None
+            if tenant_id:
+                currency_symbol = TenantCurrencyClient.get_currency_symbol(tenant_id)
+            else:
+                currency_symbol = TenantCurrencyClient.DEFAULT_CONFIG['currency_symbol']
+            return f"{self.amount} {currency_symbol} - {self.date} - {self.invoice.number}"
+        except:
+            return f"{self.amount} DH - {self.date} - {self.invoice.number}"

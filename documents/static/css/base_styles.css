@@ -1,0 +1,575 @@
+/*
+Styles CSS de base pour les documents PDF
+Optimisé pour WeasyPrint et impression
+*/
+
+/* Reset et base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 12px;
+}
+
+body {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1f2937;
+    background: white;
+}
+
+/* Configuration de page pour impression */
+@page {
+    size: A4;
+    margin: 20mm;
+    
+    @top-left {
+        content: '';
+    }
+    
+    @top-center {
+        content: '';
+    }
+    
+    @top-right {
+        content: '';
+    }
+    
+    @bottom-left {
+        content: '';
+    }
+    
+    @bottom-center {
+        content: counter(page) " / " counter(pages);
+        font-size: 8px;
+        color: #6b7280;
+    }
+    
+    @bottom-right {
+        content: '';
+    }
+}
+
+/* Page de garde */
+@page :first {
+    @bottom-center {
+        content: '';
+    }
+}
+
+/* Contrôle des sauts de page */
+.page-break {
+    page-break-before: always;
+}
+
+.page-break-after {
+    page-break-after: always;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+.keep-together {
+    page-break-inside: avoid;
+}
+
+/* Container principal */
+.document-container {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Sections principales */
+.header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 15px;
+}
+
+.body {
+    min-height: 400px;
+}
+
+.footer {
+    margin-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 15px;
+}
+
+/* Typographie */
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #374151;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4b5563;
+}
+
+p {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Mise en page - Layout */
+.two-cols {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.two-cols .col-left,
+.two-cols .col-right {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.two-cols .col-left {
+    width: 50%;
+    padding-right: 15px;
+}
+
+.two-cols .col-right {
+    width: 50%;
+    padding-left: 15px;
+}
+
+.three-cols {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.three-cols .col {
+    display: table-cell;
+    vertical-align: top;
+    width: 33.33%;
+    padding: 0 10px;
+}
+
+.three-cols .col:first-child {
+    padding-left: 0;
+}
+
+.three-cols .col:last-child {
+    padding-right: 0;
+}
+
+/* Logo et images */
+.logo-container {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.logo-container img {
+    max-height: 60px;
+    max-width: 200px;
+    height: auto;
+    width: auto;
+}
+
+.logo-fallback {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3b82f6;
+    padding: 10px 0;
+}
+
+/* Titre du document */
+.document-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: right;
+    color: #1f2937;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Blocs d'adresse */
+.address-block {
+    margin-bottom: 20px;
+}
+
+.address-title {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.address-content {
+    line-height: 1.3;
+    font-size: 12px;
+    color: #1f2937;
+}
+
+/* Grilles de métadonnées */
+.meta-grid {
+    margin-bottom: 20px;
+}
+
+.meta-grid table {
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.meta-grid td {
+    padding: 3px 15px 3px 0;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.meta-grid td:first-child {
+    font-weight: bold;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.meta-grid td:last-child {
+    color: #1f2937;
+}
+
+/* Tableaux */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.items-table {
+    border: 1px solid #d1d5db;
+}
+
+.items-table th {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 11px;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.items-table td {
+    border: 1px solid #d1d5db;
+    padding: 8px;
+    font-size: 11px;
+    vertical-align: top;
+}
+
+.items-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.items-table tr.chapter-row td {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #495057;
+    font-size: 12px;
+    padding: 12px 8px;
+    border-top: 2px solid #adb5bd;
+}
+
+.items-table .text-right {
+    text-align: right;
+}
+
+.items-table .text-center {
+    text-align: center;
+}
+
+/* Totaux */
+.totals-summary {
+    margin-bottom: 20px;
+    float: right;
+    width: 40%;
+    min-width: 250px;
+}
+
+.totals-summary table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+
+.totals-summary td {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.totals-summary .total-label {
+    text-align: right;
+    font-weight: 600;
+    color: #374151;
+    width: 60%;
+}
+
+.totals-summary .total-value {
+    text-align: right;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+    width: 40%;
+    min-width: 80px;
+}
+
+.totals-summary .grand-total .total-label,
+.totals-summary .grand-total .total-value {
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #f8f9fa;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #3b82f6;
+    color: #1f2937;
+}
+
+/* Espacement */
+.spacer {
+    display: block;
+    width: 100%;
+}
+
+.spacer-sm {
+    height: 5px;
+}
+
+.spacer-md {
+    height: 10px;
+}
+
+.spacer-lg {
+    height: 20px;
+}
+
+.spacer-xl {
+    height: 30px;
+}
+
+/* Texte et contenu */
+.text-content {
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.text-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.small-print {
+    font-size: 8px;
+    line-height: 1.2;
+    color: #6b7280;
+    margin-bottom: 5px;
+}
+
+/* Numérotation de pages */
+.page-numbers {
+    text-align: center;
+    font-size: 8px;
+    color: #6b7280;
+    margin-top: 10px;
+}
+
+/* QR Code et codes-barres */
+.qr-code {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.qr-code img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+/* Signatures */
+.signature-block {
+    margin-top: 30px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 15px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #9ca3af;
+    height: 40px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.signature-label {
+    font-size: 10px;
+    color: #6b7280;
+    position: absolute;
+    bottom: -15px;
+}
+
+/* Couleurs utilitaires */
+.text-primary {
+    color: #1f2937;
+}
+
+.text-secondary {
+    color: #6b7280;
+}
+
+.text-success {
+    color: #10b981;
+}
+
+.text-warning {
+    color: #f59e0b;
+}
+
+.text-danger {
+    color: #ef4444;
+}
+
+.text-info {
+    color: #3b82f6;
+}
+
+/* Alignement */
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+/* Gras et styles */
+.font-bold {
+    font-weight: bold;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.font-light {
+    font-weight: 300;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+/* Responsive pour impression */
+@media print {
+    body {
+        margin: 0;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .document-container {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
+    }
+}
+
+/* Styles spécifiques WeasyPrint */
+@media weasyprint {
+    /* Améliorer le rendu des images */
+    img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    /* Optimiser les polices */
+    body {
+        font-feature-settings: "liga", "kern";
+    }
+}
+
+/* États de document */
+.document-draft {
+    position: relative;
+}
+
+.document-draft::before {
+    content: "BROUILLON";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 72px;
+    font-weight: bold;
+    color: rgba(239, 68, 68, 0.1);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.document-sent {
+    border-left: 4px solid #3b82f6;
+}
+
+.document-approved {
+    border-left: 4px solid #10b981;
+}
+
+.document-cancelled {
+    position: relative;
+    opacity: 0.7;
+}
+
+.document-cancelled::before {
+    content: "ANNULÉ";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 72px;
+    font-weight: bold;
+    color: rgba(239, 68, 68, 0.15);
+    z-index: 1000;
+    pointer-events: none;
+}

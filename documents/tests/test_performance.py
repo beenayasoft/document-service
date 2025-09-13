@@ -10,7 +10,8 @@ from django.db import connection
 from rest_framework.test import APITestCase
 from documents.tests.fixtures import DocumentAPITestCase, fixtures, data_builder
 from documents.models import Quote, Invoice, QuoteItem, InvoiceItem
-from documents.services import CalculationService, PDFService
+from documents.services import CalculationService  # PDFService supprimé
+# from documents.services import PDFService  # SUPPRIMÉ
 
 
 @override_settings(DEBUG=False)  # Désactiver le debug pour des mesures précises
@@ -259,63 +260,63 @@ class CalculationPerformanceTest(PerformanceTestCase):
         self.assertLess(bulk_calc_time, 5.0)  # < 5 secondes pour 50 devis
 
 
-class PDFGenerationPerformanceTest(PerformanceTestCase):
-    """Tests de performance de génération PDF."""
+# class PDFGenerationPerformanceTest(PerformanceTestCase):  # SUPPRIMÉ - Service PDF supprimé
+#     """Tests de performance de génération PDF."""
+#     
+#     def test_pdf_generation_performance(self):
+#         """Test performance de génération PDF."""
+#         pdf_service = PDFService()
+#         
+#         quote = data_builder.reset()\
+#             .with_quote_data(quote_number='PDF-PERF-001')\
+#             .with_multiple_items(50)\
+#             .build_quote(self.user, self.vat_rate, self.quote_status)
+#         
+#         # Test génération PDF
+#         pdf_content, generation_time = self.measure_time(
+#             pdf_service.generate_quote_pdf, quote
+#         )
+#         
+#         self.assertIsInstance(pdf_content, bytes)
+#         self.assertLess(generation_time, 5.0)  # < 5 secondes
+#         self.assertTrue(len(pdf_content) > 1000)
     
-    def test_pdf_generation_performance(self):
-        """Test performance de génération PDF."""
-        pdf_service = PDFService()
-        
-        quote = data_builder.reset()\
-            .with_quote_data(quote_number='PDF-PERF-001')\
-            .with_multiple_items(50)\
-            .build_quote(self.user, self.vat_rate, self.quote_status)
-        
-        # Test génération PDF
-        pdf_content, generation_time = self.measure_time(
-            pdf_service.generate_quote_pdf, quote
-        )
-        
-        self.assertIsInstance(pdf_content, bytes)
-        self.assertLess(generation_time, 5.0)  # < 5 secondes
-        self.assertTrue(len(pdf_content) > 1000)
-    
-    def test_concurrent_pdf_generation(self):
-        """Test génération PDF concurrente."""
-        import threading
-        import concurrent.futures
-        
-        pdf_service = PDFService()
-        
-        # Créer plusieurs devis
-        quotes = []
-        for i in range(10):
-            quote = data_builder.reset()\
-                .with_quote_data(quote_number=f'CONC-PDF-{i:02d}')\
-                .with_multiple_items(20)\
-                .build_quote(self.user, self.vat_rate, self.quote_status)
-            quotes.append(quote)
-        
-        # Génération concurrente
-        start_time = time.time()
-        
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            futures = [
-                executor.submit(pdf_service.generate_quote_pdf, quote)
-                for quote in quotes
-            ]
-            
-            results = [future.result() for future in futures]
-        
-        concurrent_time = time.time() - start_time
-        
-        # Vérifications
-        self.assertEqual(len(results), 10)
-        self.assertLess(concurrent_time, 15.0)  # < 15 secondes pour 10 PDFs
-        
-        for result in results:
-            self.assertIsInstance(result, bytes)
-            self.assertTrue(len(result) > 1000)
+#     def test_concurrent_pdf_generation(self):  # SUPPRIMÉ
+#         """Test génération PDF concurrente."""
+#         import threading
+#         import concurrent.futures
+#         
+#         pdf_service = PDFService()
+#         
+#         # Créer plusieurs devis
+#         quotes = []
+#         for i in range(10):
+#             quote = data_builder.reset()\
+#                 .with_quote_data(quote_number=f'CONC-PDF-{i:02d}')\
+#                 .with_multiple_items(20)\
+#                 .build_quote(self.user, self.vat_rate, self.quote_status)
+#             quotes.append(quote)
+#         
+#         # Génération concurrente
+#         start_time = time.time()
+#         
+#         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#             futures = [
+#                 executor.submit(pdf_service.generate_quote_pdf, quote)
+#                 for quote in quotes
+#             ]
+#             
+#             results = [future.result() for future in futures]
+#         
+#         concurrent_time = time.time() - start_time
+#         
+#         # Vérifications
+#         self.assertEqual(len(results), 10)
+#         self.assertLess(concurrent_time, 15.0)  # < 15 secondes pour 10 PDFs
+#         
+#         for result in results:
+#             self.assertIsInstance(result, bytes)
+#             self.assertTrue(len(result) > 1000)
 
 
 class DatabasePerformanceTest(PerformanceTestCase):

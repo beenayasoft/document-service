@@ -42,7 +42,7 @@ from django.utils import timezone
 
 from .services.vat_rate_service import vat_rate_service
 from .services.payment_term_service import PaymentTermService
-from .services.document_appearance_service import document_appearance_service
+# from .services.document_appearance_service import document_appearance_service  # SUPPRIMÉ
 from .services.number_service import DocumentNumberService
 import logging
 
@@ -97,6 +97,9 @@ class QuoteViewSet(viewsets.ModelViewSet,
         if self.action == 'retrieve':
             return QuoteDetailSerializer
         elif self.action == 'create':
+            return QuoteCreateSerializer
+        elif self.action == 'update' or self.action == 'partial_update':
+            # Utiliser QuoteCreateSerializer pour la mise à jour pour gérer les items
             return QuoteCreateSerializer
         elif self.action in ['send', 'accept', 'reject', 'cancel']:
             return DocumentActionSerializer
@@ -179,15 +182,17 @@ class QuoteViewSet(viewsets.ModelViewSet,
         # return self.set_cached_response('stats', stats_data)
         return Response(stats_data)
     
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], serializer_class='DocumentSendSerializer')
     def send(self, request, pk=None):
-        """Marquer un devis comme envoyé"""
+        """Envoyer un devis par email"""
+        from .serializers import DocumentSendSerializer
+        
         quote = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+        serializer = DocumentSendSerializer(data=request.data)
         
         if serializer.is_valid():
             return self.perform_document_action(
-                quote, 'send', serializer.validated_data.get('note')
+                quote, 'send', serializer.validated_data.get('message')
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -233,19 +238,28 @@ class QuoteViewSet(viewsets.ModelViewSet,
         original_quote = self.get_object()
         
         with transaction.atomic():
-            # Créer une copie du devis
+            # Créer une copie du devis avec numérotation correcte
             new_quote = Quote.objects.create(
                 client_name=original_quote.client_name,
                 client_address=original_quote.client_address,
                 project_name=original_quote.project_name,
                 project_address=original_quote.project_address,
                 project_reference=original_quote.project_reference,
+                opportunity_id=original_quote.opportunity_id,
                 notes=original_quote.notes,
                 terms_and_conditions=original_quote.terms_and_conditions,
                 validity_period=original_quote.validity_period,
                 margin=original_quote.margin,
                 created_by=self.get_user_info()
             )
+            
+            # 🔧 CORRECTION: Définir tenant_id pour la numérotation séquentielle
+            tenant_id = getattr(request, 'tenant_id', None)
+            if tenant_id:
+                new_quote._tenant_id = tenant_id
+                # Forcer la regénération du numéro avec le bon tenant_id
+                new_quote.number = ""  # Réinitialiser pour déclencher la génération
+                new_quote.save()  # Déclenche la génération automatique avec tenant_id
             
             # Copier tous les éléments
             for item in original_quote.items.all():
@@ -810,15 +824,17 @@ class InvoiceViewSet(viewsets.ModelViewSet,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], serializer_class='DocumentSendSerializer')
     def send(self, request, pk=None):
         """Envoyer une facture par email"""
+        from .serializers import DocumentSendSerializer
+        
         invoice = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+        serializer = DocumentSendSerializer(data=request.data)
         
         if serializer.is_valid():
             return self.perform_document_action(
-                invoice, 'send', serializer.validated_data.get('note')
+                invoice, 'send', serializer.validated_data.get('message')
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -1220,78 +1236,6 @@ class PaymentTermViewSet(viewsets.ViewSet):
         
         return Response(payment_term)
 
-
-@api_view(['GET'])
-def generate_pdf(request, pk=None):
-    """
-    Génère un PDF pour un document (devis ou facture) avec les paramètres d'apparence du tenant
-    """
-    from .services.pdf_service import DocumentPDFService
-    from django.http import HttpResponse
-    import logging
-    
-    logger = logging.getLogger(__name__)
-    
-    # Déterminer le type de document basé sur l'URL
-    if 'quotes' in request.path:
-        try:
-            document = get_object_or_404(Quote, pk=pk)
-            document_type = 'quote'
-        except:
-            raise Http404("Devis non trouvé")
-    elif 'invoices' in request.path:
-        try:
-            document = get_object_or_404(Invoice, pk=pk)
-            document_type = 'invoice'
-        except:
-            raise Http404("Facture non trouvée")
-    else:
-        raise Http404("Type de document non supporté")
-    
-    # Récupérer le tenant_id
-    tenant_id = getattr(request, 'tenant_id', None)
-    if not tenant_id:
-        return Response(
-            {'error': 'Tenant ID requis pour générer le PDF'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    try:
-        logger.info(f"Génération de PDF pour {document_type} {document.number} - Tenant: {tenant_id}")
-        
-        # Créer le générateur PDF avec tenant_id
-        pdf_generator = DocumentPDFService(
-            document=document,
-            document_type=document_type,
-            options={
-                'show_vat': True,
-                'include_details': True,
-            },
-            tenant_id=tenant_id
-        )
-        
-        # Générer le PDF
-        pdf_buffer = pdf_generator.generate_pdf()
-        
-        # Préparer la réponse HTTP
-        response = HttpResponse(
-            pdf_buffer.getvalue(),
-            content_type='application/pdf'
-        )
-        
-        # Nom du fichier
-        filename = f"{document_type}_{document.number}_{document.issue_date.strftime('%Y%m%d')}.pdf"
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
-        
-        logger.info(f"PDF généré avec succès pour {document_type} {document.number}")
-        return response
-        
-    except Exception as e:
-        logger.error(f"Erreur lors de la génération du PDF: {str(e)}", exc_info=True)
-        return Response(
-            {'error': f'Erreur lors de la génération du PDF: {str(e)}'},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
-        )
 
 
 @api_view(['GET'])

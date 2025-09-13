@@ -1,0 +1,17 @@
+# Dépendances PDF minimales pour Windows - Phase 2
+# Installation : pip install -r requirements_pdf_minimal.txt
+
+# Générateur PDF principal (dépendances essentielles incluses)
+weasyprint>=60.0
+
+# Générateur PDF de fallback (optionnel)
+playwright>=1.40.0
+
+# Performance monitoring (optionnel)  
+psutil>=5.9.0
+
+# Note d'installation Windows :
+# Si WeasyPrint échoue, installez les dépendances système :
+# 1. Microsoft Visual C++ Redistributable (latest)
+# 2. Ou utilisez uniquement Playwright : pip install playwright
+#    Puis : playwright install chromium
